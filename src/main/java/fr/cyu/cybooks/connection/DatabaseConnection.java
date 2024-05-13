@@ -117,23 +117,4 @@ public class DatabaseConnection {
             System.err.println("Erreur lors de la création des tables : " + e.getMessage());
         }
     }
-
-    private static void createLoansTable() {
-        try {
-            Statement statement = conn.createStatement();
-            String createLoansTableQuery = "CREATE TABLE IF NOT EXISTS loans (" +
-                    "id INT PRIMARY KEY AUTO_INCREMENT," +
-                    "userId INT NOT NULL," +
-                    "bookId VARCHAR(50) NOT NULL," +
-                    "loanDate DATE NOT NULL," +
-                    "dueDate DATE NOT NULL," +
-                    "returnDate DATE," +
-                    "FOREIGN KEY (userId) REFERENCES users(id)," +
-                    ")";
-            statement.executeUpdate(createLoansTableQuery);
-            System.out.println("Table 'loans' créée avec succès.");
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la création de la table 'loans' : " + e.getMessage());
-        }
-    }
 }
