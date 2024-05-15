@@ -1,7 +1,11 @@
 package fr.cyu.cybooks.models;
 
+import fr.cyu.cybooks.dao.DAOFactory;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class User {
     public static final int MAX_LOANS = 5;
@@ -45,6 +49,10 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName.toUpperCase();
+    }
+
     public String getEmail() {
         return email;
     }
@@ -53,9 +61,67 @@ public class User {
         this.email = email;
     }
 
-    public List<Loan> currentLoans() {
-        // On appelle une méthode dans LoanDAO qui execute la requête SQL
-        return null;
+    private List<Loan> getLoans() {
+        return DAOFactory.getLoanDAO().findByUserId(this.id);
+    }
+
+    public List<Loan> getCurrentLoans() {
+        return this.getLoans()
+                .stream()
+                .filter(loan -> loan.getReturnDate() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<Loan> getCurrentLateLoans() {
+        LocalDate currentDate = LocalDate.now();
+        return this.getCurrentLoans()
+                .stream()
+                .filter(loan -> loan.getReturnDate() == null && loan.getDueDate().isBefore(currentDate))
+                .collect(Collectors.toList());
+    }
+
+    private List<Loan> getPastLoans() {
+        return this.getLoans()
+                .stream()
+                .filter(loan -> loan.getReturnDate() != null)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getBorrowedBooks() {
+        return this.getLoans()
+                .stream()
+                .map(Loan::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getCurrentBorrowedBooks() {
+        return this.getCurrentLoans()
+                .stream()
+                .map(Loan::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getCurrentLateBorrowedBooks() {
+        LocalDate currentDate = LocalDate.now();
+        return this.getCurrentLoans()
+                .stream()
+                .filter(loan -> loan.getDueDate().isBefore(currentDate))
+                .map(Loan::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getReturnedBooks() {
+        return this.getPastLoans()
+                .stream()
+                .map(Loan::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public boolean isEligibleToLoan() {
+        if (getCurrentLoans().size() >= MAX_LOANS) {
+            return false;
+        }
+        else return getCurrentLateLoans().isEmpty();
     }
 
     @Override
@@ -63,6 +129,6 @@ public class User {
         return "ID : " + id + "\n" +
                 "PRÉNOM : " + firstName + "\n" +
                 "NOM : " + lastName + "\n" +
-                "EMAIL : " + email + "\n";
+                "EMAIL : " + email;
     }
 }

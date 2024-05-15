@@ -72,10 +72,6 @@ public class LoanDAO extends DAO<Loan> {
         }
     }
 
-    public List<Loan> findByUserId(int id) {
-        return null;
-    }
-
     @Override
     public Loan find(int id) {
         try {
@@ -100,5 +96,47 @@ public class LoanDAO extends DAO<Loan> {
     @Override
     public List<Loan> all() {
         return null;
+    }
+
+    public List<Loan> findByUserId(int userId) {
+        List<Loan> loans = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE userId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String bookId = resultSet.getString("bookId");
+                LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
+                LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
+                LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
+                loans.add(new Loan(id, DAOFactory.getUserDAO().find(userId), (new BookAPI()).fetchBookById(bookId), loanDate, dueDate, returnDate));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    public List<Loan> findByBookId(String bookId) {
+        List<Loan> loans = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE bookId = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, bookId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int userId = resultSet.getInt("userId");
+                LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
+                LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
+                LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
+                loans.add(new Loan(id, DAOFactory.getUserDAO().find(userId), (new BookAPI()).fetchBookById(bookId), loanDate, dueDate, returnDate));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
     }
 }
