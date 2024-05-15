@@ -7,12 +7,14 @@ import java.net.http.HttpResponse;
 import java.net.URLEncoder;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.*;
 
 import fr.cyu.cybooks.models.Book;
 
 public class BookAPI {
     private final HttpClient client;
+    Map<String, String> map = new HashMap<>();
+
 
     public BookAPI() {
         this.client = HttpClient.newBuilder()
@@ -20,9 +22,9 @@ public class BookAPI {
                 .build();
     }
 
-    public List<Book> searchBooksByKeyword(String keyword) {
+    public List<Book> searchBooksByMap() {
         try {
-            URI uri = buildSearchUri(keyword);
+            URI uri = buildSearchUri(this.mapToString());
             HttpRequest request = createHttpRequest(uri);
             HttpResponse<String> response = sendHttpRequest(request);
             if (response.statusCode() == 200) {
@@ -61,9 +63,10 @@ public class BookAPI {
 
     private URI buildSearchUri(String keyword) throws Exception {
         String base = "https://catalogue.bnf.fr/api/SRU";
-        String query = String.format("bib.frenchNationalBibliography all \"Books\" and bib.language any \"fre\" and bib.title all \"%s\"", keyword);
+        String query = String.format("bib.frenchNationalBibliography all \"Books\" and bib.language any \"fre\" and %s", keyword);
         return buildUri(base, query);
     }
+
 
     private URI buildFetchUri(String bookId) throws Exception {
         String base = "https://catalogue.bnf.fr/api/SRU";
@@ -75,8 +78,35 @@ public class BookAPI {
         String version = "version=1.2";
         String operation = "operation=searchRetrieve";
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-        String fullUrl = String.format("%s?%s&%s&query=%s", base, version, operation, encodedQuery);
+        String fullUrl = String.format("%s?%s&%s&query=%s&recordSchema=dublincore", base, version, operation, encodedQuery);
         return URI.create(fullUrl);
+    }
+
+    public void addFilter(String condition, String message){
+        if (Objects.equals(condition, "author")) {
+            this.map.put("bib.author all ","\""+message+"\"");
+        } else if (Objects.equals(condition, "title")) {
+            this.map.put("bib.title all ","\""+message+"\"");
+        } else if (Objects.equals(condition, "date")) {
+            this.map.put("bib.date all ","\""+message+"\"");
+        } else if (Objects.equals(condition, "genre")) {
+            this.map.put("bib.otherid all ", "\""+message+"\"");
+        }
+    }
+
+    private void clearFilter(){
+        this.map.clear();
+    }
+
+    private String mapToString(){
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            sb.append(entry.getKey()).append(entry.getValue()).append(" and ");
+        }
+        if (!map.isEmpty()) {
+            sb.delete(sb.length() - 5, sb.length());
+        }
+        return sb.toString();
     }
 
     private HttpRequest createHttpRequest(URI uri) {

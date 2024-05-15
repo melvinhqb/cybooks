@@ -11,6 +11,9 @@ public class Book {
     public static final int NB_COPIES = 4;
     private String id;
     private String title;
+    private String author;
+    private String contributors;
+    private String Date;
 
     public String getId() {
         return id;
@@ -27,6 +30,18 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getAuthor() { return this.author; }
+
+    public void setAuthor(String author) { this.author = author; }
+
+    public String getContributors() { return this.contributors; }
+
+    public void setContributors(String contributors) { this.contributors = contributors; }
+
+    public String getDate() { return this.Date; }
+
+    public void setDate(String Date) { this.Date = Date; }
 
     public List<Loan> getLoans() {
         return DAOFactory.getLoanDAO().findByBookId(this.id);
