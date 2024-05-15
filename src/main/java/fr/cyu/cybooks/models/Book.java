@@ -5,6 +5,7 @@ public class Book {
     private String id;
     private String title;
     private String author;
+    private String contributors;
     private String Date;
 
     public String getId() {
@@ -26,6 +27,10 @@ public class Book {
     public String getAuthor() { return this.author; }
 
     public void setAuthor(String author) { this.author = author; }
+
+    public String getContributors() { return this.contributors; }
+
+    public void setContributors(String contributors) { this.contributors = contributors; }
 
     public String getDate() { return this.Date; }
 
