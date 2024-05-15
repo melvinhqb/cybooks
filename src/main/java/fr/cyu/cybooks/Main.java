@@ -72,7 +72,8 @@ public class Main {
             System.out.println("\n===== Rechercher un livre =====");
             System.out.print(">>> ");
             scanner.nextLine();
-            List<Book> results = bookApi.searchBooksByKeyword(scanner.nextLine());
+            bookApi.addFilter("title", scanner.nextLine());
+            List<Book> results = bookApi.searchBooksByMap();
             if (!results.isEmpty()) {
                 Book.display(results, true);
                 System.out.print("Choisir : ");
