@@ -4,6 +4,8 @@ public class Book {
     public static final int MAX_LOAN_DAYS = 14;
     private String id;
     private String title;
+    private String author;
+    private String Date;
 
     public String getId() {
         return id;
@@ -20,6 +22,14 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getAuthor() { return this.author; }
+
+    public void setAuthor(String author) { this.author = author; }
+
+    public String getDate() { return this.Date; }
+
+    public void setDate(String Date) { this.Date = Date; }
 
     @Override
     public String toString() {
