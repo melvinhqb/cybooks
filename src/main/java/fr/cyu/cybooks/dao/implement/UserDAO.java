@@ -7,56 +7,93 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) implementation for managing User entities.
+ */
 public class UserDAO extends DAO<User> {
+    /**
+     * The name of the table in the database.
+     */
     private static final String TABLE_NAME = "users";
 
+    /**
+     * Constructs a UserDAO with the specified database connection.
+     *
+     * @param conn the database connection
+     */
     public UserDAO(Connection conn) {
         super(conn);
     }
 
-    @Override
-    public boolean create(User user) {
-        try {
-            String query = "INSERT INTO " + TABLE_NAME + " (firstName, lastName, email) VALUES (?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getEmail());
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    user.setId(generatedKeys.getInt(1));
-                } else {
-                    System.err.println("Aucune clé générée après l'insertion.");
-                }
-                return true;
-            } else {
-                return false;
+    /**
+     * Executes an update operation (insert or update) on the database.
+     *
+     * @param query    the SQL query to execute
+     * @param obj      the Loan object containing the data to update
+     * @param isUpdate whether the operation is an update (true) or an insert (false)
+     * @return true if the operation was successful, false otherwise
+     */
+    private boolean executeUpdate(String query, User obj, boolean isUpdate) {
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, obj.getFirstName());
+            statement.setString(2, obj.getLastName());
+            statement.setString(3, obj.getEmail());
+            if (isUpdate) {
+                statement.setInt(4, obj.getId());
             }
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la création de l'utilisateur : " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Maps a ResultSet row to a Loan object.
+     *
+     * @param resultSet the ResultSet to map
+     * @return a Loan object containing the data from the ResultSet
+     * @throws SQLException if a database access error occurs
+     */
+    private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String firstName = resultSet.getString("firstname");
+        String lastName = resultSet.getString("lastname");
+        String email = resultSet.getString("email");
+        return new User(id, firstName, lastName, email);
+    }
+
+    /**
+     * Creates a new user record in the database.
+     *
+     * @param obj the User object to create
+     * @return true if the creation was successful, false otherwise
+     */
     @Override
-    public boolean update(User user) {
-        try {
-            String query = "UPDATE " + TABLE_NAME + " SET firstName = ?, lastName = ?, email = ? WHERE id = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getEmail());
-            statement.setInt(4, user.getId());
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
-            return false;
-        }
+    public boolean create(User obj) {
+        String query = "INSERT INTO " + TABLE_NAME + " (firstName, lastName, email) VALUES (?, ?, ?)";
+        return executeUpdate(query, obj, false);
     }
 
+    /**
+     * Updates an existing user record in the database.
+     *
+     * @param obj the User object to update
+     * @return true if the update was successful, false otherwise
+     */
+    @Override
+    public boolean update(User obj) {
+        String query = "UPDATE " + TABLE_NAME + " SET firstName = ?, lastName = ?, email = ? WHERE id = ?";
+        return executeUpdate(query, obj, true);
+    }
+
+    /**
+     * Deletes a user record from the database.
+     *
+     * @param user the User object to delete
+     * @return true if the deletion was successful, false otherwise
+     */
     @Override
     public boolean delete(User user) {
         try {
@@ -71,45 +108,45 @@ public class UserDAO extends DAO<User> {
         }
     }
 
+    /**
+     * Finds a user record by its ID.
+     *
+     * @param id the ID of the user to find
+     * @return the User object if found, null otherwise
+     */
     @Override
     public User find(int id) {
-        try {
-            String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
-            if (result.next()) {
-                User user = new User();
-                user.setId(result.getInt("id"));
-                user.setFirstName(result.getString("firstName"));
-                user.setLastName(result.getString("lastName"));
-                user.setEmail(result.getString("email"));
-                return user;
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToUser(resultSet);
+                }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche de l'utilisateur : " + e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Retrieves all user records from the database.
+     *
+     * @return a list of all User objects
+     */
     @Override
     public List<User> all() {
-        List<User> listUsers = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM " + TABLE_NAME;
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet result = statement.executeQuery();
-            while(result.next()){
-                User user = new User();
-                user.setId(result.getInt("id"));
-                user.setFirstName(result.getString("firstName"));
-                user.setLastName(result.getString("lastName"));
-                user.setEmail(result.getString("email"));
-                listUsers.add(user);
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        try (PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                users.add(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche de l'utilisateur : " + e.getMessage());
+            e.printStackTrace();
         }
-        return listUsers;
+        return users;
     }
 }

@@ -14,55 +14,103 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) implementation for managing Loan entities.
+ */
 public class LoanDAO extends DAO<Loan> {
+    /**
+     * The name of the table in the database.
+     */
     private static final String TABLE_NAME = "loans";
 
+    /**
+     * Constructs a LoanDAO with the specified database connection.
+     *
+     * @param conn the database connection
+     */
     public LoanDAO(Connection conn) {
         super(conn);
     }
 
+    /**
+     * Executes an update operation (insert or update) on the database.
+     *
+     * @param query    the SQL query to execute
+     * @param obj      the Loan object containing the data to update
+     * @param isUpdate whether the operation is an update (true) or an insert (false)
+     * @return true if the operation was successful, false otherwise
+     */
+    private boolean executeUpdate(String query, Loan obj, boolean isUpdate) {
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, obj.getUser().getId());
+            statement.setString(2, obj.getBook().getId());
+            statement.setObject(3, obj.getLoanDate());
+            statement.setObject(4, obj.getDueDate());
+            statement.setObject(5, obj.getReturnDate());
+            if (isUpdate) {
+                statement.setInt(6, obj.getId());
+            }
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Maps a ResultSet row to a Loan object.
+     *
+     * @param resultSet the ResultSet to map
+     * @return a Loan object containing the data from the ResultSet
+     * @throws SQLException if a database access error occurs
+     */
+    private Loan mapResultSetToLoan(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        int userId = resultSet.getInt("userId");
+        String bookId = resultSet.getString("bookId");
+        LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
+        LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
+        LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
+        User user = DAOFactory.getUserDAO().find(userId);
+        BookAPI bookAPI = new BookAPI();
+        return new Loan(id, user, bookAPI.fetchBookById(bookId), loanDate, dueDate, returnDate);
+    }
+
+    /**
+     * Creates a new loan record in the database.
+     *
+     * @param obj the Loan object to create
+     * @return true if the creation was successful, false otherwise
+     */
     @Override
     public boolean create(Loan obj) {
-        try {
-            String query = "INSERT INTO " + TABLE_NAME + " (userId, bookId, loanDate, dueDate, returnDate) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, obj.getUser().getId());
-            statement.setString(2, obj.getBook().getId());
-            statement.setObject(3, obj.getLoanDate());
-            statement.setObject(4, obj.getDueDate());
-            statement.setObject(5, obj.getReturnDate());
-            int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        String query = "INSERT INTO " + TABLE_NAME + " (userId, bookId, loanDate, dueDate, returnDate) VALUES (?, ?, ?, ?, ?)";
+        return executeUpdate(query, obj, false);
     }
 
+    /**
+     * Updates an existing loan record in the database.
+     *
+     * @param obj the Loan object to update
+     * @return true if the update was successful, false otherwise
+     */
     @Override
     public boolean update(Loan obj) {
-        try {
-            String query = "UPDATE " + TABLE_NAME + " SET userId = ?, bookId = ?, loanDate = ?, dueDate = ?, returnDate = ? WHERE id = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, obj.getUser().getId());
-            statement.setString(2, obj.getBook().getId());
-            statement.setObject(3, obj.getLoanDate());
-            statement.setObject(4, obj.getDueDate());
-            statement.setObject(5, obj.getReturnDate());
-            statement.setInt(6, obj.getId());
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        String query = "UPDATE " + TABLE_NAME + " SET userId = ?, bookId = ?, loanDate = ?, dueDate = ?, returnDate = ? WHERE id = ?";
+        return executeUpdate(query, obj, true);
     }
 
+    /**
+     * Deletes a loan record from the database.
+     *
+     * @param obj the Loan object to delete
+     * @return true if the deletion was successful, false otherwise
+     */
     @Override
     public boolean delete(Loan obj) {
-        try {
-            String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, obj.getId());
             int rowsDeleted = statement.executeUpdate();
             return rowsDeleted > 0;
@@ -72,20 +120,21 @@ public class LoanDAO extends DAO<Loan> {
         }
     }
 
+    /**
+     * Finds a loan record by its ID.
+     *
+     * @param id the ID of the loan to find
+     * @return the Loan object if found, null otherwise
+     */
     @Override
     public Loan find(int id) {
-        try {
-            String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int userId = resultSet.getInt("userId");
-                String bookId = resultSet.getString("bookId");
-                LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
-                LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
-                LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
-                return new Loan(id, DAOFactory.getUserDAO().find(userId), (new BookAPI()).fetchBookById(bookId), loanDate, dueDate, returnDate);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToLoan(resultSet);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,25 +142,19 @@ public class LoanDAO extends DAO<Loan> {
         return null;
     }
 
+    /**
+     * Retrieves all loan records from the database.
+     *
+     * @return a list of all Loan objects
+     */
     @Override
     public List<Loan> all() {
-        return null;
-    }
-
-    public List<Loan> findByUserId(int userId) {
         List<Loan> loans = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM " + TABLE_NAME + " WHERE userId = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        try (PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String bookId = resultSet.getString("bookId");
-                LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
-                LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
-                LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
-                loans.add(new Loan(id, DAOFactory.getUserDAO().find(userId), (new BookAPI()).fetchBookById(bookId), loanDate, dueDate, returnDate));
+                loans.add(mapResultSetToLoan(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,20 +162,43 @@ public class LoanDAO extends DAO<Loan> {
         return loans;
     }
 
+    /**
+     * Finds all loan records by the user ID.
+     *
+     * @param userId the ID of the user
+     * @return a list of Loan objects for the specified user
+     */
+    public List<Loan> findByUserId(int userId) {
+        List<Loan> loans = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE userId = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    loans.add(mapResultSetToLoan(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    /**
+     * Finds all loan records by the book ID.
+     *
+     * @param bookId the ID of the book
+     * @return a list of Loan objects for the specified book
+     */
     public List<Loan> findByBookId(String bookId) {
         List<Loan> loans = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM " + TABLE_NAME + " WHERE bookId = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE bookId = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setString(1, bookId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                int userId = resultSet.getInt("userId");
-                LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
-                LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
-                LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
-                loans.add(new Loan(id, DAOFactory.getUserDAO().find(userId), (new BookAPI()).fetchBookById(bookId), loanDate, dueDate, returnDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    loans.add(mapResultSetToLoan(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
