@@ -85,7 +85,7 @@ public class Main {
                 Loan loan = new Loan(book, user);
                 loanDAO.create(loan);
             } else {
-                System.out.println("Aucun résulats trouvés");
+                System.out.println("Aucun résultats trouvés");
             }
         }
 
@@ -100,11 +100,7 @@ public class Main {
 
     private static User connectUser() {
         System.out.println("\n===== Portail de connexion =====");
-        System.out.print("ID client : ");
-        while (!scanner.hasNextInt()) {
-            scanner.next();
-        }
-        return userDAO.find(scanner.nextInt());
+        return userDAO.find(getUserId());
     }
 
     private static User createUser() {

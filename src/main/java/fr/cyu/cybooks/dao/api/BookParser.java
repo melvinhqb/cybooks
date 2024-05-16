@@ -16,7 +16,7 @@ import java.util.List;
 public class BookParser {
 
     public static List<Book> parseBooksFromResponse(String xmlResponse) throws Exception {
-        System.out.println(xmlResponse);
+        // System.out.println(xmlResponse);
         Document doc = parseXmlResponse(xmlResponse);
 
         NodeList recordList = doc.getElementsByTagNameNS("http://www.loc.gov/zing/srw/", "record");
