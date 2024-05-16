@@ -4,16 +4,19 @@ import fr.cyu.cybooks.models.Book;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
+import java.io.StringReader;
 import java.util.List;
 
 public class BookParser {
 
     public static List<Book> parseBooksFromResponse(String xmlResponse) throws Exception {
-        // System.out.println(xmlResponse);
+        System.out.println(xmlResponse);
         Document doc = parseXmlResponse(xmlResponse);
 
         NodeList recordList = doc.getElementsByTagNameNS("http://www.loc.gov/zing/srw/", "record");
@@ -57,11 +60,20 @@ public class BookParser {
 
     private static String extractTitle(String bookInfo) {
         int slashIndex = bookInfo.indexOf('/');
-        int parenthesisIndex = bookInfo.indexOf('(');
-        int endIndex = Math.min(slashIndex != -1 ? slashIndex : Integer.MAX_VALUE,
-                parenthesisIndex != -1 ? parenthesisIndex : Integer.MAX_VALUE);
-        return bookInfo.substring(0, endIndex).trim();
+        int parenthesisIndex = bookInfo.indexOf(')');
+
+        // If '/' comes before ')' or ')' is not found, extract title before '/'
+        if (slashIndex != -1 && (parenthesisIndex == -1 || slashIndex < parenthesisIndex)) {
+            return bookInfo.substring(0, slashIndex).trim();
+        } else if (parenthesisIndex != -1) {
+            // Extract title before ')' including ')'
+            return bookInfo.substring(0, parenthesisIndex + 1).trim();
+        }
+
+        // If neither '/' nor ')' is found, return the original string
+        return bookInfo.trim();
     }
+
 
     public static String parseRecordIdentifier(Element recordElement) {
         String recordIdentifier = null;
@@ -87,5 +99,30 @@ public class BookParser {
         dbFactory.setNamespaceAware(true);
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         return dBuilder.parse(new java.io.ByteArrayInputStream(xml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+    }
+
+
+
+    public static Integer getNumberResults(String xmlResponse) throws Exception {
+        try {
+            // Load XML document from string
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(xmlResponse)));
+
+            // Get the root element
+            Element root = document.getDocumentElement();
+
+            // Get the number of records
+            NodeList numberOfRecordsList = root.getElementsByTagName("srw:numberOfRecords");
+            if (numberOfRecordsList.getLength() > 0) {
+                Element numberOfRecordsElement = (Element) numberOfRecordsList.item(0);
+                String numberOfRecordsStr = numberOfRecordsElement.getTextContent();
+                return Integer.parseInt(numberOfRecordsStr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0; // Return 0 if no records found or error occurred
     }
 }
