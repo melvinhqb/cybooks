@@ -2,46 +2,59 @@ package fr.cyu.cybooks.dao;
 
 import java.util.List;
 import java.sql.Connection;
-import fr.cyu.cybooks.connection.DatabaseConnection;
 
+/**
+ * Abstract base class for Data Access Objects (DAOs).
+ * This class provides a generic interface for CRUD operations.
+ *
+ * @param <T> the type of the object that this DAO will manage
+ */
 public abstract class DAO<T> {
-    protected Connection conn = null;
+    /**
+     * The database connection used by this DAO.
+     */
+    protected Connection conn;
 
+    /**
+     * Constructs a new DAO with the specified database connection.
+     *
+     * @param conn the database connection to be used by this DAO
+     */
     public DAO(Connection conn){
         this.conn = conn;
     }
 
     /**
-     * Creation method
+     * Creates a new object record in the database
      * @param obj is the object to create
-     * @return boolean
+     * @return true if the creation was successful, false otherwise
      */
     public abstract boolean create(T obj);
 
     /**
-     * Update method
+     * Updates an existing object record in the database.
      * @param obj is the object to update
-     * @return boolean
+     * @return true if the update was successful, false otherwise
      */
     public abstract boolean update(T obj);
 
     /**
-     * Deletion method
+     * Deletes an object record from the database
      * @param obj is the object to delete
-     * @return boolean
+     * @return true if the deletion was successful, false otherwise
      */
     public abstract boolean delete(T obj);
 
     /**
-     * Finding object by id method
-     * @param id is the identifier of the finding object
-     * @return T
+     * Finds an object record by its ID
+     * @param id the ID of the object to find
+     * @return T if found, null otherwise
      */
     public abstract T find(int id);
 
     /**
-     * Get all the objects
+     * Retrieves all T object records from the database
+     * @return a list of all T objects
      */
-
     public abstract List<T> all();
 }
