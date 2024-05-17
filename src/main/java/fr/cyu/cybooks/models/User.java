@@ -2,9 +2,8 @@ package fr.cyu.cybooks.models;
 
 import fr.cyu.cybooks.dao.DAOFactory;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class User {
@@ -74,7 +73,7 @@ public class User {
     }
 
     public List<Loan> getOverdueLoans() {
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDate = LocalDateTime.now();
         return this.getCurrentLoans()
                 .stream()
                 .filter(loan -> loan.getReturnDate() == null && loan.getDueDate().isBefore(currentDate))
@@ -103,7 +102,7 @@ public class User {
     }
 
     public List<Book> getCurrentLateBorrowedBooks() {
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDate = LocalDateTime.now();
         return this.getCurrentLoans()
                 .stream()
                 .filter(loan -> loan.getDueDate().isBefore(currentDate))

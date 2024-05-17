@@ -8,7 +8,7 @@ import fr.cyu.cybooks.models.Book;
 import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -274,7 +274,12 @@ public class LibraryApp {
                 int choice = getUserChoice();
 
                 Book book = results.get(choice-1);
-                Loan loan = new Loan(book, user);
+
+                System.out.print("Borrowing time (in seconds) : ");
+                int borrowingTime = scanner.nextInt();
+                scanner.nextLine();
+
+                Loan loan = new Loan(book, user, borrowingTime);
 
                 if (loanDAO.create(loan)) {
                     System.out.println("'" + book.getTitle() + "' added to the loan list of " + user.getFullName() + ".");
@@ -307,7 +312,7 @@ public class LibraryApp {
                 int choice = getUserChoice();
 
                 Loan loan = loansList.get(choice-1);
-                loan.setReturnDate(LocalDate.now());
+                loan.setReturnDate(LocalDateTime.now());
 
                 if (loanDAO.update(loan)) {
                     System.out.println("Book returned successfully.");
@@ -349,6 +354,7 @@ public class LibraryApp {
 
         for (Loan loan : overdueLoans) {
             System.out.println(loan);
+            System.out.println();
         }
     }
 

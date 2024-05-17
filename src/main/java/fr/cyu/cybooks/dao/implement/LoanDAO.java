@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,9 +72,9 @@ public class LoanDAO extends DAO<Loan> {
         int id = resultSet.getInt("id");
         int userId = resultSet.getInt("userId");
         String bookId = resultSet.getString("bookId");
-        LocalDate loanDate = resultSet.getObject("loanDate", LocalDate.class);
-        LocalDate dueDate = resultSet.getObject("dueDate", LocalDate.class);
-        LocalDate returnDate = resultSet.getObject("returnDate", LocalDate.class);
+        LocalDateTime loanDate = resultSet.getObject("loanDate", LocalDateTime.class);
+        LocalDateTime dueDate = resultSet.getObject("dueDate", LocalDateTime.class);
+        LocalDateTime returnDate = resultSet.getObject("returnDate", LocalDateTime.class);
         User user = DAOFactory.getUserDAO().find(userId);
         BookAPI bookAPI = new BookAPI();
         return new Loan(id, user, bookAPI.fetchBookById(bookId), loanDate, dueDate, returnDate);
@@ -225,7 +225,7 @@ public class LoanDAO extends DAO<Loan> {
 
     public List<Loan> getOverdueLoans() {
         List<Loan> loans = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate < CURDATE() AND returnDate IS NULL";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate < CURTIME() AND returnDate IS NULL";
         try (PreparedStatement statement = conn.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {

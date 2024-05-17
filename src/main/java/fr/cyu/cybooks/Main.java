@@ -8,7 +8,7 @@ import fr.cyu.cybooks.models.Book;
 import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Main {
@@ -150,7 +150,7 @@ public class Main {
 
             // Récupérer le livre souhaité
             Loan loan = loansList.get(choice-1);
-            loan.setReturnDate(LocalDate.now());
+            loan.setReturnDate(LocalDateTime.now());
             loanDAO.update(loan);
         }
 

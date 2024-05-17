@@ -1,16 +1,16 @@
 package fr.cyu.cybooks.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Loan {
     private int id;
     private Book book;
     private User user;
-    private LocalDate loanDate;
-    private LocalDate dueDate;
-    private LocalDate returnDate;
+    private LocalDateTime loanDate;
+    private LocalDateTime dueDate;
+    private LocalDateTime returnDate;
 
-    public Loan(int id, User user, Book book, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate) {
+    public Loan(int id, User user, Book book, LocalDateTime loanDate, LocalDateTime dueDate, LocalDateTime returnDate) {
         this.id = id;
         this.user = user;
         this.book = book;
@@ -22,8 +22,16 @@ public class Loan {
     public Loan(Book book, User user) {
         this.book = book;
         this.user = user;
-        this.loanDate = LocalDate.now();
+        this.loanDate = LocalDateTime.now();
         this.dueDate = this.loanDate.plusDays(Book.MAX_LOAN_DAYS);
+        this.returnDate = null;
+    }
+
+    public Loan(Book book, User user, int maxLoanSeconds) {
+        this.book = book;
+        this.user = user;
+        this.loanDate = LocalDateTime.now();
+        this.dueDate = this.loanDate.plusSeconds(maxLoanSeconds);
         this.returnDate = null;
     }
 
@@ -51,27 +59,27 @@ public class Loan {
         this.user = user;
     }
 
-    public LocalDate getLoanDate() {
+    public LocalDateTime getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(LocalDate loanDate) {
+    public void setLoanDate(LocalDateTime loanDate) {
         this.loanDate = loanDate;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getReturnDate() {
+    public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 

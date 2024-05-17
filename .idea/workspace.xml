@@ -8,13 +8,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add comments DAO.java and DAOFactory.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" afterDir="false" />
@@ -121,7 +120,7 @@
       <workItem from="1715712346294" duration="8850000" />
       <workItem from="1715760687777" duration="27304000" />
       <workItem from="1715841588941" duration="22733000" />
-      <workItem from="1715930968845" duration="13087000" />
+      <workItem from="1715930968845" duration="16606000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
@@ -172,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715849566484</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java">
+      <created>1715944926916</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715944926916</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,6 +203,7 @@
     <MESSAGE value="add comments for LoanDAO and UserDAO" />
     <MESSAGE value="ras" />
     <MESSAGE value="add comments DAO.java and DAOFactory.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="add comments DAO.java and DAOFactory.java" />
+    <MESSAGE value="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java" />
   </component>
 </project>

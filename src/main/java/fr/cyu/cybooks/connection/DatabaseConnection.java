@@ -106,8 +106,8 @@ public class DatabaseConnection {
                     "id INT PRIMARY KEY AUTO_INCREMENT," +
                     "userId INT NOT NULL," +
                     "bookId VARCHAR(50) NOT NULL," +
-                    "loanDate DATE NOT NULL," +
-                    "dueDate DATE NOT NULL," +
+                    "loanDate DATETIME NOT NULL," +
+                    "dueDate DATETIME NOT NULL," +
                     "returnDate DATE," +
                     "FOREIGN KEY (userId) REFERENCES users(id)" +
                     ")";
