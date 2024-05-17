@@ -77,6 +77,10 @@ public class Loan {
 
     @Override
     public String toString() {
-        return user + " - " + book;
+        return "ID: " + id + "\n" +
+                "Book: " + book.getTitle() + " (ID: " + book.getId() + ")\n" +
+                "User: " + user.getFullName() + " (ID: " + user.getId() + ")\n" +
+                "Loan Date: " + loanDate + "\n" +
+                "Due Date: " + dueDate;
     }
 }

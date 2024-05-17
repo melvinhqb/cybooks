@@ -109,6 +109,39 @@ public class UserDAO extends DAO<User> {
     }
 
     /**
+     * Search for users in the database based on the search term.
+     * The search term is compared with the firstname, lastname and email fields.
+     * @param searchTerm The search term to use to find users.
+     * @return A list of users matching the search term.
+     */
+    public List<User> search(String searchTerm) {
+        List<User> users = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE firstname LIKE ? OR lastname LIKE ? OR email LIKE ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            String searchPattern = "%" + searchTerm + "%";
+            statement.setString(1, searchPattern);
+            statement.setString(2, searchPattern);
+            statement.setString(3, searchPattern);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getInt("id"));
+                    user.setEmail(resultSet.getString("email"));
+                    user.setFirstName(resultSet.getString("firstname"));
+                    user.setLastName(resultSet.getString("lastname"));
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    /**
      * Finds a user record by its ID.
      *
      * @param id the ID of the user to find

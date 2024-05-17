@@ -62,7 +62,7 @@ public class User {
         this.email = email;
     }
 
-    private List<Loan> getLoans() {
+    public List<Loan> getLoans() {
         return DAOFactory.getLoanDAO().findByUserId(this.id);
     }
 
@@ -73,7 +73,7 @@ public class User {
                 .collect(Collectors.toList());
     }
 
-    private List<Loan> getCurrentLateLoans() {
+    public List<Loan> getOverdueLoans() {
         LocalDate currentDate = LocalDate.now();
         return this.getCurrentLoans()
                 .stream()
@@ -81,7 +81,7 @@ public class User {
                 .collect(Collectors.toList());
     }
 
-    private List<Loan> getPastLoans() {
+    public List<Loan> getLoanHistory() {
         return this.getLoans()
                 .stream()
                 .filter(loan -> loan.getReturnDate() != null)
@@ -112,7 +112,7 @@ public class User {
     }
 
     public List<Book> getReturnedBooks() {
-        return this.getPastLoans()
+        return this.getLoanHistory()
                 .stream()
                 .map(Loan::getBook)
                 .collect(Collectors.toList());
@@ -122,14 +122,20 @@ public class User {
         if (getCurrentLoans().size() >= MAX_LOANS) {
             return false;
         }
-        else return getCurrentLateLoans().isEmpty();
+        else return getOverdueLoans().isEmpty();
+    }
+
+    public static void display(List<User> users) {
+        for (User user : users) {
+            System.out.println(user);
+        }
     }
 
     @Override
     public String toString() {
-        return "ID : " + id + "\n" +
-                "PRÉNOM : " + firstName + "\n" +
-                "NOM : " + lastName + "\n" +
-                "EMAIL : " + email;
+        return "ID: " + id + "\n" +
+                "Firstname: " + firstName + "\n" +
+                "Lastname: " + lastName + "\n" +
+                "Email: " + email;
     }
 }

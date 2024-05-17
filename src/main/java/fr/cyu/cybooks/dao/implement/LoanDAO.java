@@ -3,6 +3,7 @@ package fr.cyu.cybooks.dao.implement;
 import fr.cyu.cybooks.dao.DAO;
 import fr.cyu.cybooks.dao.DAOFactory;
 import fr.cyu.cybooks.dao.api.BookAPI;
+import fr.cyu.cybooks.models.Book;
 import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
@@ -12,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Data Access Object (DAO) implementation for managing Loan entities.
@@ -204,5 +207,49 @@ public class LoanDAO extends DAO<Loan> {
             e.printStackTrace();
         }
         return loans;
+    }
+
+    public List<Loan> getCurrentLoans() {
+        List<Loan> loans = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate >= CURDATE() AND returnDate IS NULL";
+        try (PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                loans.add(mapResultSetToLoan(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    public List<Loan> getOverdueLoans() {
+        List<Loan> loans = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate < CURDATE() AND returnDate IS NULL";
+        try (PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                loans.add(mapResultSetToLoan(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    public Map<String, Integer> getMostLoanedBooks() {
+        Map<String, Integer> mostLoanedBooks = new HashMap<>();
+        String query = "SELECT bookId, COUNT(*) AS loanCount FROM " + TABLE_NAME + " GROUP BY bookId ORDER BY loanCount DESC";
+        try (PreparedStatement statement = conn.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String bookId = resultSet.getString("bookId");
+                int loanCount = resultSet.getInt("loanCount");
+                mostLoanedBooks.put(bookId, loanCount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mostLoanedBooks;
     }
 }

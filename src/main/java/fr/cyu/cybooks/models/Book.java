@@ -54,7 +54,7 @@ public class Book {
                 .collect(Collectors.toList());
     }
 
-    public List<Loan> getCurrentLateLoans() {
+    public List<Loan> getOverdueLoans() {
         LocalDate currentDate = LocalDate.now();
         return this.getCurrentLoans()
                 .stream()
@@ -62,7 +62,7 @@ public class Book {
                 .collect(Collectors.toList());
     }
 
-    public List<Loan> getPastLoans() {
+    public List<Loan> getLoanHistory() {
         return this.getLoans()
                 .stream()
                 .filter(loan -> loan.getReturnDate() != null)
@@ -75,7 +75,10 @@ public class Book {
 
     public static void display(List<Book> list) {
         for (Book book : list) {
-            System.out.println(book);
+            System.out.printf("%-30s\t%-30s\t%-4s\n",
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getDate());
         }
     }
 

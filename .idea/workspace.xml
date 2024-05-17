@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+    <option name="CUSTOM_SCOPE_NAME" value="Module 'cybooks'" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="adjust main with book api">
+    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add comments DAO.java and DAOFactory.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/api/BookParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/api/BookParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JavaFXApplication" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -48,7 +54,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "H:/Documents/ING1/Semestre2/cybooks",
+    "last_opened_file_path": "H:/Downloads/mysql-connector-java-8.0.25.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -114,7 +120,8 @@
       <workItem from="1715685560439" duration="8987000" />
       <workItem from="1715712346294" duration="8850000" />
       <workItem from="1715760687777" duration="27304000" />
-      <workItem from="1715841588941" duration="4596000" />
+      <workItem from="1715841588941" duration="22733000" />
+      <workItem from="1715930968845" duration="13087000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
@@ -144,7 +151,28 @@
       <option name="project" value="LOCAL" />
       <updated>1715809545224</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add comments for LoanDAO and UserDAO">
+      <created>1715846246120</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715846246120</updated>
+    </task>
+    <task id="LOCAL-00006" summary="ras">
+      <created>1715846277073</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715846277073</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add comments DAO.java and DAOFactory.java">
+      <created>1715849566484</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715849566484</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +194,9 @@
     <MESSAGE value="edit database connection" />
     <MESSAGE value="add menu" />
     <MESSAGE value="adjust main with book api" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust main with book api" />
+    <MESSAGE value="add comments for LoanDAO and UserDAO" />
+    <MESSAGE value="ras" />
+    <MESSAGE value="add comments DAO.java and DAOFactory.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="add comments DAO.java and DAOFactory.java" />
   </component>
 </project>

@@ -83,7 +83,12 @@ public class Main {
                 // Récupérer le livre souhaité
                 Book book = results.get(choice-1);
                 Loan loan = new Loan(book, user);
-                loanDAO.create(loan);
+
+                if(loanDAO.create(loan)) {
+                    System.out.println("'" + book.getTitle() + "' ajouté à la liste d'emprunts de " + user.getFullName());
+                } else {
+                    System.err.println("Erreur lors du processus d'emprunt.");
+                }
             } else {
                 System.out.println("Aucun résultats trouvés");
             }
@@ -117,8 +122,8 @@ public class Main {
     }
 
     private static int getUserId() {
+        System.out.print("Saisir ID client : ");
         while (!scanner.hasNextInt()) {
-            System.out.print("Saisir ID client : ");
             scanner.next();
         }
         return scanner.nextInt();
