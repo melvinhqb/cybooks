@@ -8,15 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java">
+    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="change LocalDate to LocalDateTime">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,33 +41,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "last_opened_file_path": "H:/Downloads/mysql-connector-java-8.0.25.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/Downloads/mysql-connector-java-8.0.25.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
-      "MySQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MySQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\Documents\ING1\cybooks\lib" />
@@ -120,7 +114,9 @@
       <workItem from="1715712346294" duration="8850000" />
       <workItem from="1715760687777" duration="27304000" />
       <workItem from="1715841588941" duration="22733000" />
-      <workItem from="1715930968845" duration="16606000" />
+      <workItem from="1715930968845" duration="17542000" />
+      <workItem from="1716029154411" duration="2566000" />
+      <workItem from="1716211814246" duration="4049000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
@@ -178,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715944926916</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="change LocalDate to LocalDateTime">
+      <created>1715954695412</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715954695412</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +207,7 @@
     <MESSAGE value="ras" />
     <MESSAGE value="add comments DAO.java and DAOFactory.java" />
     <MESSAGE value="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java" />
+    <MESSAGE value="change LocalDate to LocalDateTime" />
+    <option name="LAST_COMMIT_MESSAGE" value="change LocalDate to LocalDateTime" />
   </component>
 </project>

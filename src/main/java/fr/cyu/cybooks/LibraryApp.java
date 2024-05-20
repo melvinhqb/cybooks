@@ -275,6 +275,11 @@ public class LibraryApp {
 
                 Book book = results.get(choice-1);
 
+                if (!book.isAvailableForLoan()) {
+                    System.out.println("This book is not available to loan.");
+                    return;
+                }
+
                 System.out.print("Borrowing time (in seconds) : ");
                 int borrowingTime = scanner.nextInt();
                 scanner.nextLine();
