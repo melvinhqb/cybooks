@@ -94,18 +94,29 @@ public class BookAPI {
     }
 
     public void addFilter(String condition, String message){
-        System.out.println(message);
-        if (Objects.equals(condition, "author")) {
-            this.map.put("bib.author all ","\""+message+"\"");
-        } else if (Objects.equals(condition, "title")) {
-            this.map.put("bib.title all ","\""+message+"\"");
-        } else if (Objects.equals(condition, "date")) {
-            this.map.put("bib.date all ","\""+message+"\"");
-        } else if (Objects.equals(condition, "genre")) {
-            this.map.put("bib.otherid all ", "\""+message+"\"");
+        if(!Objects.equals(message, "")) {
+            if (Objects.equals(condition, "author")) {
+                this.map.put("bib.author all ", "\"" + message + "\"");
+            } else if (Objects.equals(condition, "title")) {
+                this.map.put("bib.title all ", "\"" + message + "\"");
+            } else if (Objects.equals(condition, "date")) {
+                this.map.put("bib.date all ", "\"" + message + "\"");
+            } else if (Objects.equals(condition, "genre")) {
+                this.map.put("bib.otherid all ", "\"" + message + "\"");
+            }
+        }else{
+            if (Objects.equals(condition, "author")) {
+                this.map.remove("bib.author all ");
+            } else if (Objects.equals(condition, "title")) {
+                this.map.remove("bib.title all ");
+            } else if (Objects.equals(condition, "date")) {
+                this.map.remove("bib.date all ");
+            } else if (Objects.equals(condition, "genre")) {
+                this.map.remove("bib.otherid all ");
+            }
         }
         index = 1;
-        max=null;
+        max = null;
     }
 
     public void clearFilter(){

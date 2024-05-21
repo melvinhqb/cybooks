@@ -120,6 +120,7 @@ public class Main {
                     if (bookApi.getIndex()>1) {
                         System.out.println("12. page precedente");
                     }
+                    System.out.println("13. Annuler");
                     System.out.print("Choisir : ");
                     choice = scanner.nextInt();
                     scanner.nextLine();
@@ -130,6 +131,8 @@ public class Main {
                         bookApi.setIndex(bookApi.getIndex()+bookApi.getJump());
                     }else if (choice == 12 && bookApi.getIndex()>1) {
                         bookApi.setIndex(bookApi.getIndex()-bookApi.getJump());
+                    }else if(choice == 13){
+                        return;
                     }else{
                         System.out.println("Choisissez une option valide.");
                     }
