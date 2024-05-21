@@ -75,19 +75,33 @@ public class Book {
 
     public static void display(List<Book> list) {
         for (Book book : list) {
-            System.out.printf("%-30s\t%-30s\t%-4s\n",
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getDate());
+            String title = (book.getTitle() != null) ? book.getTitle() : "Unknown Title";
+            String author = (book.getAuthor() != null) ? book.getAuthor() : "Unknown author";
+            String date = (book.getDate() != null) ? book.getDate() : "Unknown date";
+            String contributors = (book.getContributors() != null) ? book.getContributors() : "No contributors";
+
+            System.out.printf("%-30s\t%-30s\t%-4s\t%-30s\n",
+                    title,
+                    author,
+                    date,
+                    contributors);
         }
     }
 
     public static void display(List<Book> list, boolean withIndex) {
-        for (int i = 0; i < list.size(); i++) {
-            if (withIndex) {
-                System.out.print((i + 1) + ". ");
-            }
-            System.out.println(list.get(i));
+        int count =1;
+        for (Book book : list) {
+            String title = (book.getTitle() != null) ? book.getTitle() : "Unknown Title";
+            String author = (book.getAuthor() != null) ? book.getAuthor() : "Unknown author";
+            String date = (book.getDate() != null) ? book.getDate() : "Unknown date";
+            String contributors = (book.getContributors() != null) ? book.getContributors() : "No contributors";
+            System.out.print((count) + ". ");
+            System.out.printf("%-30s\t%-30s\t%-4s\t%-30s\n",
+                    title,
+                    author,
+                    date,
+                    contributors);
+            count++;
         }
     }
 
