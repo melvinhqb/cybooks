@@ -25,7 +25,8 @@ public class Main {
                 case 1 -> borrowBook();
                 case 2 -> returnBook();
                 case 3 -> showClientInfo();
-                case 4 -> disconnectUser();
+                case 4 -> handleUser();
+                case 5 -> Create();
                 case 0 -> {
                     System.out.println("Au revoir !");
                     return;
@@ -35,11 +36,25 @@ public class Main {
         }
     }
 
-    private static void disconnectUser() {
-        if (user != null) {
-            user=null;
+    private static void Create() {
+        if (user==null){
+            createUser();
         } else{
             System.out.println("Choix invalide. Veuillez réessayer.");
+        }
+    }
+
+    private static void handleUser() {
+        if (user!=null){
+            disconnectUser();
+        } else{
+            user = connectUser();
+        }
+    }
+
+    private static void disconnectUser() {
+        if (user != null) {
+            user = null;
         }
     }
 
@@ -53,6 +68,9 @@ public class Main {
         System.out.println("3. Infos Client");
         if(user != null) {
             System.out.println("4. Deconnection Client");
+        }else{
+            System.out.println("4. Connecter Client");
+            System.out.println("5. Cree Client");
         }
         System.out.println("0. Quitter");
         System.out.print("Choisissez une option: ");
@@ -94,7 +112,7 @@ public class Main {
             while(!rightBook) {
                 results = bookApi.searchBooksByMap();
                 if (!results.isEmpty()) {
-                    System.out.println("\nNombre de resultat : "+bookApi.getMax()+", resultat de "+bookApi.getIndex()+" a "+(bookApi.getIndex()+ bookApi.getJump() - 1));
+                    System.out.println("\nNombre de resultat : "+bookApi.getMax()+", resultat de "+bookApi.getIndex()+" a "+(bookApi.getIndex()+ results.size() - 1));
                     Book.display(results, true);
                     if (bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
                         System.out.println("11. page suivente");

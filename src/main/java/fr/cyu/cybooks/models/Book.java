@@ -80,7 +80,7 @@ public class Book {
             String date = (book.getDate() != null) ? book.getDate() : "Unknown date";
             String contributors = (book.getContributors() != null) ? book.getContributors() : "No contributors";
 
-            System.out.printf("%-30s\t%-30s\t%-4s\t%-30s\n",
+            System.out.printf("%-30s;\t%-30s;\t%-4s;\t%-30s;\n",
                     title,
                     author,
                     date,
@@ -96,7 +96,7 @@ public class Book {
             String date = (book.getDate() != null) ? book.getDate() : "Unknown date";
             String contributors = (book.getContributors() != null) ? book.getContributors() : "No contributors";
             System.out.print((count) + ". ");
-            System.out.printf("%-30s\t%-30s\t%-4s\t%-30s\n",
+            System.out.printf("%-30s;\t%-30s;\t%-4s;\t%-30s;\n",
                     title,
                     author,
                     date,
