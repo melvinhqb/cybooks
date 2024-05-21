@@ -32,12 +32,10 @@ public class BookAPI {
                 HttpResponse<String> response = sendHttpRequest(request);
                 if (max == null){
                     max = BookParser.getNumberResults(response.body());
-                    System.out.println("YES HAHAHAHHAHAHAHAH" +max);
                 }else if (max < index){
                     return null;
                 }
                 if (response.statusCode() == 200) {
-                    index+=jump;
                     return BookParser.parseBooksFromResponse(response.body());
                 }
             } else {
@@ -96,6 +94,7 @@ public class BookAPI {
     }
 
     public void addFilter(String condition, String message){
+        System.out.println(message);
         if (Objects.equals(condition, "author")) {
             this.map.put("bib.author all ","\""+message+"\"");
         } else if (Objects.equals(condition, "title")) {
@@ -141,7 +140,7 @@ public class BookAPI {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public Integer index() {
+    public Integer getIndex() {
         return index;
     }
 
