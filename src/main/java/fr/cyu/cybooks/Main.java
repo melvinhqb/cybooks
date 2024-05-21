@@ -9,6 +9,7 @@ import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
 import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -24,6 +25,7 @@ public class Main {
                 case 1 -> borrowBook();
                 case 2 -> returnBook();
                 case 3 -> showClientInfo();
+                case 4 -> disconnectUser();
                 case 0 -> {
                     System.out.println("Au revoir !");
                     return;
@@ -33,17 +35,34 @@ public class Main {
         }
     }
 
+    private static void disconnectUser() {
+        if (user != null) {
+            user=null;
+        } else{
+            System.out.println("Choix invalide. Veuillez réessayer.");
+        }
+    }
+
     private static int showMainMenu() {
+        if(user != null) {
+            System.out.println(" - Connecté en tant que " + user.getFullName());
+        }
         System.out.println("\n===== Menu Principal =====");
         System.out.println("1. Emprunt de livre");
         System.out.println("2. Retour de livre");
         System.out.println("3. Infos Client");
+        if(user != null) {
+            System.out.println("4. Deconnection Client");
+        }
         System.out.println("0. Quitter");
         System.out.print("Choisissez une option: ");
         return getUserChoice();
     }
 
+
     private static void borrowBook() {
+
+        boolean rightBook = false;
 
         if (user == null) {
             user = connectUser();
@@ -64,33 +83,52 @@ public class Main {
         }
 
         System.out.println("Connecté en tant que " + user.getFullName());
-
         if (!user.isEligibleToLoan()) {
             System.out.println("Ce client n'est pas éligible à l'emprunt.");
             return;
         } else {
             System.out.println("\n===== Rechercher un livre =====");
-            System.out.print(">>> ");
-            scanner.nextLine();
-            bookApi.addFilter("title", scanner.nextLine());
-            List<Book> results = bookApi.searchBooksByMap();
-            if (!results.isEmpty()) {
-                Book.display(results, true);
-                System.out.print("Choisir : ");
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+            pickFilters();
+            int choice = -1;
+            List<Book> results = new ArrayList<>();
+            while(!rightBook) {
+                results = bookApi.searchBooksByMap();
+                if (!results.isEmpty()) {
+                    System.out.println("\nNombre de resultat : "+bookApi.getMax()+", resultat de "+bookApi.getIndex()+" a "+(bookApi.getIndex()+ bookApi.getJump() - 1));
+                    Book.display(results, true);
+                    if (bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                        System.out.println("11. page suivente");
+                    }
+                    if (bookApi.getIndex()>1) {
+                        System.out.println("12. page precedente");
+                    }
+                    System.out.print("Choisir : ");
+                    choice = scanner.nextInt();
+                    scanner.nextLine();
 
-                // Récupérer le livre souhaité
-                Book book = results.get(choice-1);
-                Loan loan = new Loan(book, user);
-
-                if(loanDAO.create(loan)) {
-                    System.out.println("'" + book.getTitle() + "' ajouté à la liste d'emprunts de " + user.getFullName());
+                    if (choice >= 1 && choice <= results.size()) {
+                        rightBook = true;
+                    } else if (choice == 11 && bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                        bookApi.setIndex(bookApi.getIndex()+bookApi.getJump());
+                    }else if (choice == 12 && bookApi.getIndex()>1) {
+                        bookApi.setIndex(bookApi.getIndex()-bookApi.getJump());
+                    }else{
+                        System.out.println("Choisissez une option valide.");
+                    }
                 } else {
-                    System.err.println("Erreur lors du processus d'emprunt.");
+                    System.out.println("Aucun résultats trouvés");
+                    bookApi.clearFilter();
+                    return;
                 }
+            }
+
+            Book book = results.get(choice - 1);
+            Loan loan = new Loan(book, user);
+
+            if (loanDAO.create(loan)) {
+                System.out.println("'" + book.getTitle() + "' ajouté à la liste d'emprunts de " + user.getFullName());
             } else {
-                System.out.println("Aucun résultats trouvés");
+                System.err.println("Erreur lors du processus d'emprunt.");
             }
         }
 
@@ -102,6 +140,81 @@ public class Main {
             user = null;
         }
     }
+
+    private static void pickFilters() {
+        boolean searching = true;
+        String title = null;
+        String author = null;
+        String date = null;
+        String genre = null;
+
+        while (searching) {
+            System.out.println("\n===== Choisissez un filtre =====");
+            // Option 1: Choose by title
+            if (title == null) {
+                System.out.println("1. Choisir par titre");
+            } else {
+                System.out.println("1. Titre = " + title + " Choisir un autre titre");
+            }
+
+            // Option 2: Choose by author
+            if (author == null) {
+                System.out.println("2. Choisir par auteur");
+            } else {
+                System.out.println("2. Auteur = " + author + " Choisir un autre auteur");
+            }
+
+            // Option 3: Choose by date
+            if (date == null) {
+                System.out.println("3. Choisir par date");
+            } else {
+                System.out.println("3. Date = " + date + " Choisir une autre date");
+            }
+            // Option 4: Choose by genre
+            if (genre == null) {
+                System.out.println("4. Choisir par genre");
+            } else {
+                System.out.println("4. Genre = " + genre + " Choisir un autre genre");
+            }
+            System.out.println("5. Rechercher");
+            System.out.println("6. Annuler");
+            System.out.print("Choisissez une option : ");
+
+            int choice = getUserChoice();
+            scanner.nextLine(); // Consume the leftover newline character
+            switch (choice) {
+                case 1:
+                    System.out.print("Entrez le titre : ");
+                    title = scanner.nextLine(); // Capture the title input
+                    bookApi.addFilter("title", title); // Add the title filter
+                    break;
+                case 2:
+                    System.out.print("Entrez l'auteur : ");
+                    author = scanner.nextLine();
+                    bookApi.addFilter("author", author);
+                    break;
+                case 3:
+                    System.out.print("Entrez la date (AAAA) : ");
+                    date = scanner.nextLine();
+                    bookApi.addFilter("date", date);
+                    break;
+                case 4:
+                    System.out.print("Entrez le genre : ");
+                    genre = scanner.nextLine();
+                    bookApi.addFilter("genre", genre);
+                    break;
+                case 5:
+                    searching = false;
+                    break;
+                case 6:
+                    System.out.println("Recherche annulée.");
+                    return;
+                default:
+                    System.out.println("Option invalide. Veuillez réessayer.");
+            }
+        }
+    }
+
 
     private static User connectUser() {
         System.out.println("\n===== Portail de connexion =====");
