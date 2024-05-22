@@ -3,7 +3,6 @@ package fr.cyu.cybooks.dao.implement;
 import fr.cyu.cybooks.dao.DAO;
 import fr.cyu.cybooks.dao.DAOFactory;
 import fr.cyu.cybooks.dao.api.BookAPI;
-import fr.cyu.cybooks.models.Book;
 import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
@@ -12,10 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Data Access Object (DAO) implementation for managing Loan entities.
@@ -146,7 +143,7 @@ public class LoanDAO extends DAO<Loan> {
     }
 
     /**
-     * Retrieves all loan records from the database.
+     * Get all loan records from the database.
      *
      * @return a list of all Loan objects
      */
@@ -209,6 +206,12 @@ public class LoanDAO extends DAO<Loan> {
         return loans;
     }
 
+    /**
+     * Get all current loan records from the database.
+     * A current loan is one where the due date is in the future and the book has not been returned yet.
+     *
+     * @return a list of all current Loan objects
+     */
     public List<Loan> getCurrentLoans() {
         List<Loan> loans = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate >= CURDATE() AND returnDate IS NULL";
@@ -223,6 +226,12 @@ public class LoanDAO extends DAO<Loan> {
         return loans;
     }
 
+    /**
+     * Get all overdue loan records from the database.
+     * An overdue loan is one where the due date has passed and the book has not been returned yet.
+     *
+     * @return a list of all overdue Loan objects
+     */
     public List<Loan> getOverdueLoans() {
         List<Loan> loans = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE dueDate < CURTIME() AND returnDate IS NULL";
@@ -237,19 +246,35 @@ public class LoanDAO extends DAO<Loan> {
         return loans;
     }
 
-    public Map<String, Integer> getMostLoanedBooks() {
+    /**
+     * Get the most loaned books from the database within the specified number of days.
+     * This method returns a map where the keys are book IDs and the values are the number of times each book has been loaned.
+     *
+     * @param days the number of days to look back for loan records
+     * @param limit the maximum number of books to return
+     * @return a map of the most loaned books and their loan counts
+     */
+    public Map<String, Integer> getMostLoanedBooks(int days, int limit) {
         Map<String, Integer> mostLoanedBooks = new HashMap<>();
-        String query = "SELECT bookId, COUNT(*) AS loanCount FROM " + TABLE_NAME + " GROUP BY bookId ORDER BY loanCount DESC";
-        try (PreparedStatement statement = conn.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                String bookId = resultSet.getString("bookId");
-                int loanCount = resultSet.getInt("loanCount");
-                mostLoanedBooks.put(bookId, loanCount);
+        String query = "SELECT bookId, COUNT(*) AS loanCount FROM " + TABLE_NAME + " WHERE loanDate >= ? GROUP BY bookId ORDER BY loanCount DESC LIMIT ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            LocalDateTime pastDate = LocalDateTime.now().minusDays(days);
+            statement.setObject(1, pastDate);
+            statement.setInt(2, limit);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String bookId = resultSet.getString("bookId");
+                    int loanCount = resultSet.getInt("loanCount");
+                    mostLoanedBooks.put(bookId, loanCount);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return mostLoanedBooks;
+        return mostLoanedBooks.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 }

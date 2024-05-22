@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class LibraryApp {
     private static final Scanner scanner = new Scanner(System.in);
@@ -384,18 +385,14 @@ public class LibraryApp {
     private static void displayMostLoanedBooks() {
         System.out.println("\n=== Most Loaned Books ===");
 
-        Map<String, Integer> mostLoanedBooks = loanDAO.getMostLoanedBooks();
+        Map<String, Integer> mostLoanedBooks = loanDAO.getMostLoanedBooks(30, 10);
 
         if (mostLoanedBooks.isEmpty()) {
             System.out.println("No books have been loaned yet.");
             return;
         }
 
-        for (Map.Entry<String, Integer> entry : mostLoanedBooks.entrySet()) {
-            String bookId = entry.getKey();
-            int loanCount = entry.getValue();
-            System.out.println("Book ID: " + bookId + " | Loan Count: " + loanCount);
-        }
+        mostLoanedBooks.forEach((bookId, loanCount) -> System.out.println("Book ID: " + bookId + " | Loan Count: " + loanCount));
     }
 
     private static int getUserChoice() {
