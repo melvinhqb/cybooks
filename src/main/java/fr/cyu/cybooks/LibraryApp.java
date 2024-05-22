@@ -9,11 +9,7 @@ import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class LibraryApp {
     private static final Scanner scanner = new Scanner(System.in);
@@ -29,7 +25,7 @@ public class LibraryApp {
         while (true) {
             System.out.println("\n=== Main Menu ===");
             System.out.println("1. User Management");
-            System.out.println("2. Book Search (TO TO)");
+            System.out.println("2. Book Search");
             System.out.println("3. Loan Management");
             System.out.println("4. Statistics");
             System.out.println("5. Quit");
@@ -38,7 +34,7 @@ public class LibraryApp {
 
             switch (choice) {
                 case 1 -> displayUserManagementMenu();
-                case 2 -> displayBookSearchMenu();
+                case 2 -> searchBooks();
                 case 3 -> displayLoanManagementMenu();
                 case 4 -> displayStatisticsMenu();
                 case 5 -> {
@@ -145,8 +141,8 @@ public class LibraryApp {
                 System.out.println("\n=== User Menu ===");
                 System.out.println(user);
                 System.out.println("---");
-                System.out.println("1. Display Current Loans (TO DO)");
-                System.out.println("2. Display Overdue Loans (TO DO)");
+                System.out.println("1. Display Current Loans");
+                System.out.println("2. Display Overdue Loans");
                 System.out.println("3. Display History Loans");
                 System.out.println("4. Return to Main Menu");
 
@@ -168,9 +164,31 @@ public class LibraryApp {
     }
 
     private static void displayUserCurrentLoans(User user) {
+        List<Loan> currentLoans = user.getCurrentLoans();
+
+        if (!currentLoans.isEmpty()) {
+            System.out.println("Current loans for user: " + user.getFirstName() + " " + user.getLastName());
+            for (Loan loan : currentLoans) {
+                System.out.println(loan);
+                System.out.println();
+            }
+        } else {
+            System.out.println("No current loans found for user with ID: " + user.getId());
+        }
     }
 
     private static void displayUserOverdueLoans(User user) {
+        List<Loan> overdueLoans = user.getOverdueLoans();
+
+        if (!overdueLoans.isEmpty()) {
+            System.out.println("Overdue loans for user: " + user.getFirstName() + " " + user.getLastName());
+            for (Loan loan : overdueLoans) {
+                System.out.println(loan);
+                System.out.println();
+            }
+        } else {
+            System.out.println("No overdue loans found for user with ID: " + user.getId());
+        }
     }
 
     private static void displayUserLoanHistory(User user) {
@@ -179,10 +197,7 @@ public class LibraryApp {
         if (!loanHistory.isEmpty()) {
             System.out.println("Loan history for user: " + user.getFirstName() + " " + user.getLastName());
             for (Loan loan : loanHistory) {
-                System.out.println("Loan ID: " + loan.getId());
-                System.out.println("Book: " + loan.getBook().getTitle());
-                System.out.println("Loan Date: " + loan.getLoanDate());
-                System.out.println("Due Date: " + loan.getDueDate());
+                System.out.println(loan);
                 System.out.println();
             }
         } else {
@@ -190,40 +205,114 @@ public class LibraryApp {
         }
     }
 
-    private static void displayBookSearchMenu() {
-        while (true) {
-            System.out.println("\n=== Book Search ===");
-            System.out.println("1. Search by Title (TO DO)");
-            System.out.println("2. Search by Author (TO DO)");
-            System.out.println("3. Search by Category (TO DO)");
-            System.out.println("4. Search by Publication Year (TO DO)");
-            System.out.println("5. Return to Main Menu");
+    private static void pickFilters() {
+        boolean searching = true;
+        String title = null;
+        String author = null;
+        String date = null;
+        String genre = null;
+
+        bookApi.clearFilter();
+
+        while (searching) {
+            System.out.println("\n===== Choisissez un filtre =====");
+            // Option 1: Choose by title
+            if (title == null) {
+                System.out.println("1. Choisir par titre");
+            } else {
+                System.out.println("1. Titre = " + title + " Choisir un autre titre");
+            }
+
+            // Option 2: Choose by author
+            if (author == null) {
+                System.out.println("2. Choisir par auteur");
+            } else {
+                System.out.println("2. Auteur = " + author + " Choisir un autre auteur");
+            }
+
+            // Option 3: Choose by date
+            if (date == null) {
+                System.out.println("3. Choisir par date");
+            } else {
+                System.out.println("3. Date = " + date + " Choisir une autre date");
+            }
+            // Option 4: Choose by genre
+            if (genre == null) {
+                System.out.println("4. Choisir par genre");
+            } else {
+                System.out.println("4. Genre = " + genre + " Choisir un autre genre");
+            }
+            System.out.println("5. Rechercher");
+            System.out.println("6. Annuler");
+            System.out.print("Choisissez une option : ");
 
             int choice = getUserChoice();
 
             switch (choice) {
-                case 1 -> searchBooksByTitle();
-                case 2 -> searchBooksByAuthor();
-                case 3 -> searchBooksByCategory();
-                case 4 -> searchBooksByPublicationYear();
-                case 5 -> {
+                case 1 -> {
+                    System.out.print("Entrez le titre : ");
+                    title = scanner.nextLine(); // Capture the title input
+                    bookApi.addFilter("title", title); // Add the title filter
+                }
+                case 2 -> {
+                    System.out.print("Entrez l'auteur : ");
+                    author = scanner.nextLine();
+                    bookApi.addFilter("author", author);
+                }
+                case 3 -> {
+                    System.out.print("Entrez la date (AAAA) : ");
+                    date = scanner.nextLine();
+                    bookApi.addFilter("date", date);
+                }
+                case 4 -> {
+                    System.out.print("Entrez le genre : ");
+                    genre = scanner.nextLine();
+                    bookApi.addFilter("genre", genre);
+                }
+                case 5 -> searching = false;
+                case 6 -> {
+                    System.out.println("Recherche annulée.");
                     return;
                 }
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Option invalide. Veuillez réessayer.");
             }
         }
     }
 
-    private static void searchBooksByTitle() {
-    }
+    public static void searchBooks() {
+        System.out.println("\n===== Rechercher un livre =====");
+        pickFilters();
+        int choice = -1;
+        List<Book> results = new ArrayList<>();
+        while(true) {
+            results = bookApi.searchBooksByMap();
+            if (!results.isEmpty()) {
+                System.out.println("\nNombre de resultat : "+bookApi.getMax()+", resultat de "+bookApi.getIndex()+" a "+(bookApi.getIndex()+ results.size() - 1));
+                Book.display(results, false);
+                if (bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                    System.out.println("11. page suivante");
+                }
+                if (bookApi.getIndex()>1) {
+                    System.out.println("12. page precedente");
+                }
+                System.out.println("13. Annuler");
+                choice = getUserChoice();
 
-    private static void searchBooksByAuthor() {
-    }
-
-    private static void searchBooksByCategory() {
-    }
-
-    private static void searchBooksByPublicationYear() {
+                if (choice == 11 && bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                    bookApi.setIndex(bookApi.getIndex()+bookApi.getJump());
+                }else if (choice == 12 && bookApi.getIndex()>1) {
+                    bookApi.setIndex(bookApi.getIndex()-bookApi.getJump());
+                }else if(choice == 13){
+                    return;
+                }else{
+                    System.out.println("Choisissez une option valide.");
+                }
+            } else {
+                System.out.println("Aucun résultats trouvés");
+                bookApi.clearFilter();
+                return;
+            }
+        }
     }
 
     public static void displayLoanManagementMenu() {
@@ -264,37 +353,59 @@ public class LibraryApp {
         } else if (!user.isEligibleToLoan()) {
             System.out.println("User with ID: " + userId + " is not eligible to loan.");
         } else {
-            System.out.print("Enter book title : ");
-            String title = scanner.nextLine();
+            pickFilters();
+            List<Book> results;
+            int choice = -1;
+            while (true) {
+                results = bookApi.searchBooksByMap();
 
-            bookApi.addFilter("title", title);
-            List<Book> results = bookApi.searchBooksByMap();
+                if (!results.isEmpty()) {
+                    System.out.printf("Number of results: %d (from %d to %d)\n", bookApi.getMax(), bookApi.getIndex(), bookApi.getIndex() + results.size() - 1);
+                    Book.display(results, true);
 
-            if (!results.isEmpty()) {
-                Book.display(results, true);
-                int choice = getUserChoice();
+                    if (bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                        System.out.println("11. page suivante");
+                    }
+                    if (bookApi.getIndex()>1) {
+                        System.out.println("12. page precedente");
+                    }
+                    System.out.println("13. Annuler");
 
-                Book book = results.get(choice-1);
+                    choice = getUserChoice();
 
-                if (!book.isAvailableForLoan()) {
-                    System.out.println("This book is not available to loan.");
-                    return;
-                }
-
-                System.out.print("Borrowing time (in seconds) : ");
-                int borrowingTime = scanner.nextInt();
-                scanner.nextLine();
-
-                Loan loan = new Loan(book, user, borrowingTime);
-
-                if (loanDAO.create(loan)) {
-                    System.out.println("'" + book.getTitle() + "' added to the loan list of " + user.getFullName() + ".");
+                    if (choice >= 1 && choice <= results.size()) {
+                        break;
+                    } else if (choice == 11 && bookApi.getIndex()+bookApi.getJump()<=bookApi.getMax()) {
+                        bookApi.setIndex(bookApi.getIndex()+bookApi.getJump());
+                    }else if (choice == 12 && bookApi.getIndex()>1) {
+                        bookApi.setIndex(bookApi.getIndex()-bookApi.getJump());
+                    }else if(choice == 13){
+                        return;
+                    }else{
+                        System.out.println("Choisissez une option valide.");
+                    }
                 } else {
-                    System.err.println("Error during the loan process.");
+                    System.out.println("No books found.");
                 }
+            }
 
+            Book book = results.get(choice-1);
+
+            if (!book.isAvailableForLoan()) {
+                System.out.println("This book is not available to loan.");
+                return;
+            }
+
+            System.out.print("Borrowing time (in seconds) : ");
+            int borrowingTime = scanner.nextInt();
+            scanner.nextLine();
+
+            Loan loan = new Loan(book, user, borrowingTime);
+
+            if (loanDAO.create(loan)) {
+                System.out.println("'" + book.getTitle() + "' added to the loan list of " + user.getFullName() + ".");
             } else {
-                System.out.println("No books found with title '" + title + "'.");
+                System.err.println("Error during the loan process.");
             }
         }
     }
@@ -367,7 +478,7 @@ public class LibraryApp {
     public static void displayStatisticsMenu() {
         while (true) {
             System.out.println("\n=== Statistics ===");
-            System.out.println("1. Most Loaned Books (Last 30 Days)  (TO DO)");
+            System.out.println("1. Top 10 Most Loaned Books (Last 30 Days)");
             System.out.println("2. Return to Main Menu");
 
             int choice = getUserChoice();
