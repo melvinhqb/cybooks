@@ -6,17 +6,25 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.io.StringReader;
 import java.util.List;
 
+/**
+ * This class provides methods to parse XML responses from book API requests.
+ */
 public class BookParser {
 
+    /**
+     * Parses the XML response containing book information and returns a list of Book objects.
+     *
+     * @param xmlResponse the XML response string
+     * @return a list of Book objects parsed from the XML response
+     * @throws Exception if there is an error while parsing the XML
+     */
     public static List<Book> parseBooksFromResponse(String xmlResponse) throws Exception {
-        // System.out.println(xmlResponse);
         Document doc = parseXmlResponse(xmlResponse);
 
         NodeList recordList = doc.getElementsByTagNameNS("http://www.loc.gov/zing/srw/", "record");
@@ -31,6 +39,13 @@ public class BookParser {
         return books;
     }
 
+    /**
+     * Parses a single book from a record element in the XML response.
+     *
+     * @param recordElement the XML element representing a single book record
+     * @return the Book object parsed from the record element
+     * @throws Exception if there is an error while parsing the book record
+     */
     public static Book parseBookFromRecordElement(Element recordElement) throws Exception {
         Book book = new Book();
 
@@ -40,6 +55,7 @@ public class BookParser {
         NodeList dataFieldList = recordElement.getElementsByTagName("oai_dc:dc");
         for (int j=0; j < dataFieldList.getLength(); j++) {
             Element dataField = (Element) dataFieldList.item(j);
+
             // Extract and update book details here
             String fullTitle= extractTextContent(dataField, "dc:title");
             String date=extractTextContent(dataField, "dc:date");
@@ -47,6 +63,7 @@ public class BookParser {
             String contributors=extractTextContent(dataField, "dc:contributor");
             assert fullTitle != null;
             String title=extractTitle(fullTitle);
+
             // Set book details
             book.setTitle(title);
             book.setAuthor(author);
@@ -57,7 +74,12 @@ public class BookParser {
         return book;
     }
 
-
+    /**
+     * Extracts the title from the full book information string.
+     *
+     * @param bookInfo the full book information string
+     * @return the extracted title of the book
+     */
     private static String extractTitle(String bookInfo) {
         int slashIndex = bookInfo.indexOf('/');
         int parenthesisIndex = bookInfo.indexOf(')');
@@ -74,7 +96,12 @@ public class BookParser {
         return bookInfo.trim();
     }
 
-
+    /**
+     * Parses the record identifier from the record element.
+     *
+     * @param recordElement the XML element representing a single book record
+     * @return the record identifier of the book
+     */
     public static String parseRecordIdentifier(Element recordElement) {
         String recordIdentifier = null;
         NodeList recordIdentifierList = recordElement.getElementsByTagNameNS("http://www.loc.gov/zing/srw/", "recordIdentifier");
@@ -86,6 +113,13 @@ public class BookParser {
         return recordIdentifier;
     }
 
+    /**
+     * Extracts text content from the specified XML element based on the given tag name.
+     *
+     * @param parentElement the parent XML element
+     * @param tagName       the tag name of the element to extract text content from
+     * @return the text content of the specified element, or null if not found
+     */
     private static String extractTextContent(Element parentElement, String tagName) {
         NodeList nodeList = parentElement.getElementsByTagName(tagName);
         if (nodeList.getLength() > 0) {
@@ -94,6 +128,13 @@ public class BookParser {
         return null;
     }
 
+    /**
+     * Parses the XML response string into a Document object.
+     *
+     * @param xml the XML response string
+     * @return the Document object representing the parsed XML
+     * @throws Exception if there is an error while parsing the XML
+     */
     private static Document parseXmlResponse(String xml) throws Exception {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         dbFactory.setNamespaceAware(true);
@@ -101,8 +142,13 @@ public class BookParser {
         return dBuilder.parse(new java.io.ByteArrayInputStream(xml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
     }
 
-
-
+    /**
+     * Retrieves the total number of results from the XML response.
+     *
+     * @param xmlResponse the XML response string
+     * @return the total number of results parsed from the XML response
+     * @throws Exception if there is an error while parsing the XML
+     */
     public static Integer getNumberResults(String xmlResponse) throws Exception {
         try {
             // Load XML document from string
