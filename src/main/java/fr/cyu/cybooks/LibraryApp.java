@@ -507,9 +507,16 @@ public class LibraryApp {
     }
 
     private static int getUserChoice() {
-        System.out.print("\nMake your choice : ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = -1;
+        while (true) {
+            try {
+                System.out.print("\nMake your choice: ");
+                choice = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
         return choice;
     }
 }
