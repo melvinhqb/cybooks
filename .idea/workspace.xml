@@ -8,9 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add BookisAvailableForLoan">
+    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="correction of invalid number in getUserChoice">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/LibraryApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;H:/Documents/ING1/Test/cybooks&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/Documents/ING1&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -56,7 +56,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -119,7 +119,8 @@
       <workItem from="1716211814246" duration="4689000" />
       <workItem from="1716281697650" duration="2385000" />
       <workItem from="1716301472650" duration="165000" />
-      <workItem from="1716458002650" duration="635000" />
+      <workItem from="1716458002650" duration="7293000" />
+      <workItem from="1716532639425" duration="2899000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
@@ -191,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1716216499830</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="correction of invalid number in getUserChoice">
+      <created>1716458830057</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1716458830057</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,6 +227,11 @@
     <MESSAGE value="add new terminal interface for app LibraryApp.java &#10;add search method for UserDAO.java" />
     <MESSAGE value="change LocalDate to LocalDateTime" />
     <MESSAGE value="add BookisAvailableForLoan" />
-    <option name="LAST_COMMIT_MESSAGE" value="add BookisAvailableForLoan" />
+    <MESSAGE value="correction of invalid number in getUserChoice" />
+    <option name="LAST_COMMIT_MESSAGE" value="correction of invalid number in getUserChoice" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

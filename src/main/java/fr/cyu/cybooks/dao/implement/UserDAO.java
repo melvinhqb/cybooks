@@ -33,15 +33,27 @@ public class UserDAO extends DAO<User> {
      * @param isUpdate whether the operation is an update (true) or an insert (false)
      * @return true if the operation was successful, false otherwise
      */
-    private boolean executeUpdate(String query, User obj, boolean isUpdate) {
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
+    public boolean executeUpdate(String query, User obj, boolean isUpdate) {
+        try (PreparedStatement statement = conn.prepareStatement(query, isUpdate ? PreparedStatement.NO_GENERATED_KEYS : PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, obj.getFirstName());
             statement.setString(2, obj.getLastName());
             statement.setString(3, obj.getEmail());
             if (isUpdate) {
                 statement.setInt(4, obj.getId());
             }
+
             int rowsAffected = statement.executeUpdate();
+
+            if (!isUpdate && rowsAffected > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        obj.setId(generatedKeys.getInt(1));
+                    } else {
+                        throw new SQLException("Creating user failed, no ID obtained.");
+                    }
+                }
+            }
+
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
