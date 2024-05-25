@@ -207,22 +207,22 @@ public class Main {
                 case 1:
                     System.out.print("Entrez le titre : ");
                     title = scanner.nextLine(); // Capture the title input
-                    bookApi.addFilter("title", title); // Add the title filter
+                    bookApi.addFilter("title", title,1); // Add the title filter
                     break;
                 case 2:
                     System.out.print("Entrez l'auteur : ");
                     author = scanner.nextLine();
-                    bookApi.addFilter("author", author);
+                    bookApi.addFilter("author", author,1);
                     break;
                 case 3:
                     System.out.print("Entrez la date (AAAA) : ");
                     date = scanner.nextLine();
-                    bookApi.addFilter("date", date);
+                    bookApi.addFilter("date", date,1);
                     break;
                 case 4:
                     System.out.print("Entrez le genre : ");
                     genre = scanner.nextLine();
-                    bookApi.addFilter("genre", genre);
+                    bookApi.addFilter("genre", genre,1);
                     break;
                 case 5:
                     searching = false;

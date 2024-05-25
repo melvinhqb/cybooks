@@ -141,16 +141,26 @@ public class BookAPI {
      * @param condition the filter condition (author, title, date, genre)
      * @param message   the value of the filter condition
      */
-    public void addFilter(String condition, String message){
+    public void addFilter(String condition, String message, int method){
+        String finalMethod;
+        if (method == 1){
+            finalMethod = "and";
+        } else if (method == 2) {
+            finalMethod = "not";
+        }else{
+            System.out.println("method not correct");
+            return;
+        }
+
         if(!Objects.equals(message, "")) {
             if (Objects.equals(condition, "author")) {
-                this.map.put("bib.author all ", "\"" + message + "\"");
+                this.map.put("bib.author all ", "\"" + message + "\" "+finalMethod);
             } else if (Objects.equals(condition, "title")) {
-                this.map.put("bib.title all ", "\"" + message + "\"");
+                this.map.put("bib.title all ", "\"" + message + "\" "+finalMethod);
             } else if (Objects.equals(condition, "date")) {
-                this.map.put("bib.date all ", "\"" + message + "\"");
+                this.map.put("bib.date all ", "\"" + message + "\" "+finalMethod);
             } else if (Objects.equals(condition, "genre")) {
-                this.map.put("bib.otherid all ", "\"" + message + "\"");
+                this.map.put("bib.otherid all ", "\"" + message + "\" "+finalMethod);
             }
         }else{
             if (Objects.equals(condition, "author")) {
@@ -191,14 +201,42 @@ public class BookAPI {
      * @return the string representation of the filter conditions
      */
     private String mapToString(){
-        StringBuilder sb = new StringBuilder();
+        List<String> reformattedList = new ArrayList<>();
+
+        // Reformat the entries and add to the list
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            sb.append(entry.getKey()).append(entry.getValue()).append(" and ");
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            // Split value into words
+            String[] words = value.split(" ");
+            // Get the last word (finalMethod)
+            String finalMethod = words[words.length - 1];
+            // Get the rest of the message
+            String message = String.join(" ", Arrays.copyOf(words, words.length - 1));
+
+            // Ensure a space between " and finalMethod
+            if (message.endsWith("\"")) {
+                message += " ";
+            }
+
+            // Reformat the string
+            String reformatted = finalMethod + " " + key + message;
+            reformattedList.add(reformatted);
         }
-        if (!map.isEmpty()) {
-            sb.delete(sb.length() - 5, sb.length());
+
+        // Sort the list alphabetically
+        Collections.sort(reformattedList);
+
+        // Merge the list into a single string
+        String finalString = String.join("", reformattedList);
+
+        // Remove the first four characters if the finalString is longer than 4 characters
+        if (finalString.length() > 4) {
+            finalString = finalString.substring(4);
         }
-        return sb.toString();
+
+        return finalString;
     }
 
     /**
