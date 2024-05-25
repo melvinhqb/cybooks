@@ -8,9 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="correction of invalid number in getUserChoice">
+    <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="correction user ID when creation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/connection/DatabaseConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +56,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -120,7 +120,9 @@
       <workItem from="1716281697650" duration="2385000" />
       <workItem from="1716301472650" duration="165000" />
       <workItem from="1716458002650" duration="7293000" />
-      <workItem from="1716532639425" duration="2899000" />
+      <workItem from="1716532639425" duration="4647000" />
+      <workItem from="1716558002769" duration="5373000" />
+      <workItem from="1716620399303" duration="3493000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
@@ -199,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1716458830057</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="correction user ID when creation">
+      <created>1716536852193</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716536852193</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +237,8 @@
     <MESSAGE value="change LocalDate to LocalDateTime" />
     <MESSAGE value="add BookisAvailableForLoan" />
     <MESSAGE value="correction of invalid number in getUserChoice" />
-    <option name="LAST_COMMIT_MESSAGE" value="correction of invalid number in getUserChoice" />
+    <MESSAGE value="correction user ID when creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="correction user ID when creation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
