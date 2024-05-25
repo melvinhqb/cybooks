@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="588.0" styleClass="user_instance_container" stylesheets="@LibraryAppDesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.cyu.cybooks.view.MainMenuController">
+   <children>
+      <AnchorPane layoutY="14.0" prefHeight="338.0" prefWidth="588.0" stylesheets="@LibraryAppDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="88.0" layoutY="101.0" prefHeight="171.0" prefWidth="404.0" styleClass="user_info" stylesheets="@LibraryAppDesign.css">
+               <children>
+                  <Label layoutX="75.0" layoutY="35.0" text="Saisir ID :">
+                     <font>
+                        <Font name="Verdana" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="63.0" layoutY="72.0" styleClass="user_instance_no_id" stylesheets="@LibraryAppDesign.css" text="Vous ne connaissez pas votre ID ?" />
+                  <Label fx:id="user_search_link" layoutX="302.0" layoutY="72.0" onMousePressed="#userSearch" styleClass="user_search_link" stylesheets="@LibraryAppDesign.css" text="Search" />
+                  <Button fx:id="signin_btn" layoutX="118.0" layoutY="109.0" mnemonicParsing="false" onAction="#showSignInScene" prefWidth="80.0" styleClass="signin_btn" text="Sign in" />
+                  <Button fx:id="login_btn" layoutX="200.0" layoutY="109.0" mnemonicParsing="false" onAction="#login" prefWidth="80.0" styleClass="login_btn" text="Login" />
+                  <TextField fx:id="user_res_id" layoutX="176.0" layoutY="24.0" prefHeight="28.0" prefWidth="146.0" styleClass="user_instance_id" stylesheets="@LibraryAppDesign.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutY="-3.0" prefHeight="36.0" prefWidth="588.0" styleClass="user_instance_container_top" AnchorPane.bottomAnchor="267.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0">
+               <children>
+                  <Button fx:id="close_btn" layoutX="522.0" layoutY="4.0" minWidth="42.0" mnemonicParsing="false" onMousePressed="#setClose_btn" prefHeight="30.0" prefWidth="60.0" styleClass="close_btn" stylesheets="@LibraryAppDesign.css" text="X" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="116.0" layoutY="44.0" styleClass="user_instance_title" stylesheets="@LibraryAppDesign.css" text="Accéder à l'Espace Utilisateur" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

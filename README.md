@@ -40,3 +40,24 @@ private final static String DB_NAME = "cybooks";
 private final static String USERNAME = "root";
 private final static String PASSWORD = "";
 ```
+
+### Configuration
+Edit Configuration:
+    (S'il n'y a rien, cliquez sur + en haut à gauche puis sur Application)
+    Main Class: fr.cyu.cybooks.view.CyBooksApplication
+    Cliquer sur Modifier les options -> ajouter VM options -> --module-path "path\to\your\javafx\sdk\lib" --add-modules javafx.controls,javafx.fxml
+    Cliquer sur Apply
+    Cliquer sur Ok
+Fichier -> Structure du projet
+        -> Librairies
+                     ->Cliquez sur le + (Java)
+                     -> Ajoutez la lib de votre javafx SDK (doit obligatoirement avoir javafx.controls et javafx.fxml)
+        ->Modules
+                    ->Dependances
+                    ->Vérifiez que vous avez mysql connector (lien plus haut dans ### Dépendances)
+
+Fichier -> Paramètres
+        ->Languages et Frameworks (cliquez sur JavaFx)
+        ->Mettez le path to SceneBuilder.exe
+
+pom.xml -> Vérifiez que toutes les dépendances sont bien configurées avec la bonne version (>8)

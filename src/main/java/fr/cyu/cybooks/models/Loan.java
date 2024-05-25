@@ -184,4 +184,13 @@ public class Loan {
                 "Loan Date: " + loanDate + "\n" +
                 "Due Date: " + dueDate;
     }
+    public String getTitle() {
+        return book.getTitle();
+    }
+    public int getUserId(){return user.getId();}
+
+    public String getAuthor() {
+        return book.getAuthor();
+    }
+    public void getStatus(){}
 }
