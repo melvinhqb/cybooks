@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="3" />
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+    <option name="SCOPE_TYPE" value="8" />
     <option name="CUSTOM_SCOPE_NAME" value="Module 'cybooks'" />
   </component>
   <component name="AutoImportSettings">
@@ -10,13 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add comments for DatabaseConnection.java&#10;display error message when error connection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/api/BookAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/api/BookAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/ClientInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/ClientInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/LoansInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/LoansInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/ClientInfo.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/ClientInfo.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/LoansInfo.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/LoansInfo.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/SearchBook.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/SearchBook.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/LoanDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/dao/implement/UserDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,43 +43,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "last_opened_file_path": "C:/Users/CYTech Student/IdeaProjects/CyBooks2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.JavaFX",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/Downloads/mysql-connector-java-8.0.25.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
-      "MySQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MySQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\Desktop\Projet\cybooks\src\main\resources" />
       <recent name="H:\Desktop\Projet\cybooks\src\main\java\fr\cyu\cybooks\view" />
       <recent name="H:\Desktop\Projet\cybooks\src\main\resources\fr.cyu.cybooks.view" />
       <recent name="H:\Documents\ING1\cybooks\lib" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="H:\Desktop\Projet\cybooks\src\main\java\fr\cyu\cybooks\view" />
-      <recent name="H:\Desktop\Projet\cybooks\src\main\resources\fr\cyu\cybooks\view" />
     </key>
   </component>
   <component name="RunManager">
@@ -137,8 +133,8 @@
       <workItem from="1716532639425" duration="4647000" />
       <workItem from="1716558002769" duration="5373000" />
       <workItem from="1716620399303" duration="6828000" />
-      <workItem from="1716668807288" duration="5031000" />
-      <workItem from="1716728506593" duration="6052000" />
+      <workItem from="1716668807288" duration="2000000" />
+      <workItem from="1716720281375" duration="366000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>

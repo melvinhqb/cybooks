@@ -6,6 +6,7 @@ import fr.cyu.cybooks.models.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * Data Access Object (DAO) implementation for managing User entities.
@@ -55,8 +56,11 @@ public class UserDAO extends DAO<User> {
             }
 
             return rowsAffected > 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.err.println("Error: The email \"" + obj.getEmail() + "\" is already in use.");
+            return false;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \" + e.getMessage()");
             return false;
         }
     }
@@ -147,7 +151,7 @@ public class UserDAO extends DAO<User> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
 
         return users;
@@ -170,7 +174,7 @@ public class UserDAO extends DAO<User> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return null;
     }
@@ -190,7 +194,7 @@ public class UserDAO extends DAO<User> {
                 users.add(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return users;
     }

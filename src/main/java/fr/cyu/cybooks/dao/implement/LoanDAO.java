@@ -53,7 +53,7 @@ public class LoanDAO extends DAO<Loan> {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
             return false;
         }
     }
@@ -115,7 +115,7 @@ public class LoanDAO extends DAO<Loan> {
             int rowsDeleted = statement.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
             return false;
         }
     }
@@ -137,7 +137,7 @@ public class LoanDAO extends DAO<Loan> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return null;
     }
@@ -157,7 +157,7 @@ public class LoanDAO extends DAO<Loan> {
                 loans.add(mapResultSetToLoan(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return loans;
     }
@@ -179,7 +179,7 @@ public class LoanDAO extends DAO<Loan> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return loans;
     }
@@ -201,7 +201,7 @@ public class LoanDAO extends DAO<Loan> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return loans;
     }
@@ -221,7 +221,7 @@ public class LoanDAO extends DAO<Loan> {
                 loans.add(mapResultSetToLoan(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return loans;
     }
@@ -241,7 +241,7 @@ public class LoanDAO extends DAO<Loan> {
                 loans.add(mapResultSetToLoan(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return loans;
     }
@@ -269,7 +269,7 @@ public class LoanDAO extends DAO<Loan> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("SQL Error: \"" + e.getMessage());
         }
         return mostLoanedBooks.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
