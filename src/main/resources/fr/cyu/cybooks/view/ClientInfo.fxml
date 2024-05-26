@@ -110,7 +110,7 @@
                                                 </CheckBox>
                                                 <CheckBox fx:id="by_genre" alignment="CENTER" allowIndeterminate="true" layoutX="10.0" layoutY="31.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="400.0" text="    Genre">
                                                    <graphic>
-                                                      <TextField fx:id="search_genre" prefWidth="250.0" />
+                                                      <ChoiceBox fx:id="search_genre" prefHeight="31.0" prefWidth="250.0" />
                                                    </graphic>
                                                 </CheckBox>
                                                 <CheckBox fx:id="by_date" alignment="CENTER" allowIndeterminate="true" layoutX="10.0" layoutY="31.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="400.0" text="      Date">
@@ -159,14 +159,14 @@
                                           <TableView fx:id="book_search_res" layoutX="24.0" layoutY="16.0" prefHeight="378.0" prefWidth="675.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="15.0">
                                             <columns>
                                               <TableColumn fx:id="col_book_title" prefWidth="270.0" text="Titre" />
-                                              <TableColumn fx:id="col_book_author" prefWidth="226.0" text="Auteur" />
-                                                <TableColumn fx:id="col_book_date" prefWidth="99.0" text="Date" />
-                                                <TableColumn fx:id="col_book_genre" prefWidth="77.0" text="Genre" />
+                                              <TableColumn fx:id="col_book_author" prefWidth="184.0" text="Auteur" />
+                                                <TableColumn fx:id="col_book_date" prefWidth="127.0" text="Date" />
+                                                <TableColumn fx:id="col_book_genre" prefWidth="91.0" text="Genre" />
                                             </columns>
                                           </TableView>
                                           <Button fx:id="next_btn" layoutX="369.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="91.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Suivant" />
                                           <Button fx:id="prev_btn" disable="true" layoutX="247.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Précedent" />
-                                          <Button fx:id="return_to_search" layoutX="620.0" layoutY="404.0" mnemonicParsing="false" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Retour" />
+                                          <Button fx:id="return_to_search" layoutX="614.0" layoutY="407.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="68.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Retour" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -194,20 +194,21 @@
                                  <children>
                                     <TableView fx:id="selected_book_table" layoutX="5.0" prefHeight="404.0" prefWidth="484.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
                                        <columns>
-                                          <TableColumn fx:id="col_sel_loan_id" prefWidth="57.0" text="LoanId" />
-                                          <TableColumn fx:id="col_sel_loan_userId" prefWidth="54.0" text="UserId" />
+                                          <TableColumn fx:id="col_sel_loan_id" prefWidth="31.0" text="LoanId" />
+                                          <TableColumn fx:id="col_sel_loan_userId" prefWidth="22.0" text="UserId" />
                                           
-                                                <TableColumn fx:id="col_sel_loan_title" prefWidth="125.0" text="Title" />
-                                          <TableColumn fx:id="col_sel_loan_author" prefWidth="95.5" text="Author" />
-                                          <TableColumn fx:id="col_sel_loan_due" prefWidth="77.0" text="DueDate" />
-                                          <TableColumn fx:id="col_sel_loan_return" prefWidth="73.0" text="ReturnDate" />
+                                                <TableColumn fx:id="col_sel_loan_title" prefWidth="85.0" text="Title" />
+                                          <TableColumn fx:id="col_sel_loan_author" prefWidth="77.0" text="Author" />
+                                          <TableColumn fx:id="col_sel_loan_date" prefWidth="86.0" text="LoanDate" />
+                                          <TableColumn fx:id="col_sel_loan_due" prefWidth="94.0" text="DueDate" />
+                                          <TableColumn fx:id="col_sel_loan_return" prefWidth="90.0" text="ReturnDate" />
                                        </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="book_loans_container" prefHeight="510.0" prefWidth="495.0" stylesheets="@LibraryAppDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="return_to_res" layoutX="328.0" layoutY="459.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Return to search" />
+                                    <Button fx:id="return_to_res" layoutX="328.0" layoutY="459.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Retour" />
                                  </children>
                               </AnchorPane>
                            </children>

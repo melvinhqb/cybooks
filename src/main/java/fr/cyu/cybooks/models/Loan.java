@@ -192,5 +192,4 @@ public class Loan {
     public String getAuthor() {
         return book.getAuthor();
     }
-    public void getStatus(){}
 }

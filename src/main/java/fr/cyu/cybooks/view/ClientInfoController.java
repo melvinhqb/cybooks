@@ -17,6 +17,8 @@ import fr.cyu.cybooks.models.Book;
 import fr.cyu.cybooks.models.Loan;
 import fr.cyu.cybooks.models.User;
 import com.sun.tools.javac.Main;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -78,7 +80,7 @@ public class ClientInfoController{
     private TableColumn<?, ?> col_book_author;
 
     @FXML
-    private TableColumn<?, ?> col_book_genre;
+    private TableColumn<?, String> col_book_genre;
 
     @FXML
     private TableColumn<?, ?> col_book_date;
@@ -181,7 +183,7 @@ public class ClientInfoController{
     private CheckBox by_genre;
 
     @FXML
-    private TextField search_genre;
+    private ChoiceBox search_genre;
 
     @FXML
     private CheckBox by_date;
@@ -219,6 +221,10 @@ public class ClientInfoController{
 
     @FXML
     private TableColumn<?, ?> col_sel_loan_author;
+
+    @FXML
+    private TableColumn<?, ?> col_sel_loan_date;
+
 
     @FXML
     private TableColumn<?, ?> col_sel_loan_due;
@@ -297,13 +303,6 @@ public class ClientInfoController{
             }
         }catch(Exception e){e.printStackTrace();}
     }
-
-    //public void setUser_info(int id, String firstName, String lastName, String mail){
-    //   userId.setText(String.valueOf(id))
-    //   userFirstName.setText(firstName);
-    //   userLastName.setText(lastName);
-    //   userMail.setText(mail);
-    //}
     public void setUser_info(User user){
         this.user=user;
         userId.setText(setUser_details(user));
@@ -367,7 +366,7 @@ public class ClientInfoController{
         updateCurrentLoan();
 
 
-        selected_book_table.setPlaceholder(new Label("No book currently loaned to return"));
+        selected_book_table.setPlaceholder(new Label("Aucun livre n'est emprunté"));
 
     }
     @FXML
@@ -391,19 +390,23 @@ public class ClientInfoController{
     }
     public void setToOverdueLoans(){
         updateOverdueLoan();
-        selected_book_table.setPlaceholder(new Label("No book delayed"));
+        selected_book_table.setPlaceholder(new Label("Aucun emprunt en retard"));
 
     }
     public void setToHistoryLoans(){
         col_sel_loan_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+
         col_sel_loan_title.setCellValueFactory(new PropertyValueFactory<>("Title"));
         col_sel_loan_author.setCellValueFactory(new PropertyValueFactory<>("Author"));
         col_sel_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         col_sel_loan_due.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+
+        col_sel_loan_date.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         updateHistoryLoan();
 
-        selected_book_table.setPlaceholder(new Label("No book returned ever"));
+        selected_book_table.setPlaceholder(new Label("Aucun livre retourné"));
 
     }
     public void initBookSearch(){
@@ -412,6 +415,7 @@ public class ClientInfoController{
         clearSearchFields();
         book_results_container.setVisible(false);
         book_search_container.setVisible(true);
+
         if(user_split_center_form==null && user_search_center_form==null) {
             book_split_center_form.setVisible(false);
             book_results_container.setVisible(false);
@@ -419,15 +423,30 @@ public class ClientInfoController{
         }else{user_split_center_form.setVisible(false);
             user_search_center_form.setVisible(true);}
 
+        ObservableList<String> genres = FXCollections.observableArrayList(
+                "", "Action", "Thriller", "Romance", "Fiction", "Drama", "Sciences", "Politique", "Histoire"
+        );
+        search_genre.setItems(genres);
+
+
         if (set_pagination == null) {
             set_pagination = new ChoiceBox<>(FXCollections.observableArrayList(5, 10, 15, 20, 30, 50));
         } else {
             set_pagination.setItems(FXCollections.observableArrayList(5, 10, 15, 20, 30, 50));
         }
+        search_genre.getSelectionModel().select(0);
         set_pagination.getSelectionModel().select(1);// Selects 10 by default
         col_book_title.setCellValueFactory(new PropertyValueFactory<>("title"));
         col_book_author.setCellValueFactory(new PropertyValueFactory<>("author"));
-        //  col_book_genre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+
+        col_book_genre.setCellValueFactory(cellData ->{
+            if(!by_genre.isSelected() || search_genre.getValue()==""){
+                    return new SimpleStringProperty("");
+            }else{
+                return new SimpleStringProperty((String) search_genre.getValue());
+            }
+        });
+
         col_book_date.setCellValueFactory(new PropertyValueFactory<>("date"));
         by_title.selectedProperty().addListener((observable, oldValue, newValue) -> search_title.setDisable(!newValue));
         by_author.selectedProperty().addListener((observable, oldValue, newValue) -> search_author.setDisable(!newValue));
@@ -444,10 +463,12 @@ public class ClientInfoController{
         bookApi.clearFilter(); // Clear previous filters
 
         boolean validInput = false;
+        boolean onlyIndeterminate=true;
 
         if (!search_title.getText().isEmpty() && by_title.isSelected()) {
             bookApi.addFilter("title", search_title.getText(),1);
             validInput = true;
+            onlyIndeterminate=false;
         }else if (!search_title.getText().isEmpty() && by_title.isIndeterminate()) {
             bookApi.addFilter("date", search_date.getText(),2);
             validInput = true;
@@ -455,6 +476,7 @@ public class ClientInfoController{
         if (!search_author.getText().isEmpty() && by_author.isSelected()) {
             bookApi.addFilter("author", search_author.getText(),1);
             validInput = true;
+            onlyIndeterminate=false;
         }else if (!search_author.getText().isEmpty() && by_author.isIndeterminate()) {
             bookApi.addFilter("date", search_author.getText(),2);
             validInput = true;
@@ -462,15 +484,19 @@ public class ClientInfoController{
         if (!search_date.getText().isEmpty() && by_date.isSelected()) {
             bookApi.addFilter("date", search_date.getText(),1);
             validInput = true;
+            onlyIndeterminate=false;
         } else if (!search_date.getText().isEmpty() && by_date.isIndeterminate()) {
             bookApi.addFilter("date", search_date.getText(),2);
             validInput = true;
         }
-        if (!search_genre.getText().isEmpty() && by_genre.isSelected()) {
-            bookApi.addFilter("genre", search_genre.getText(),1);
+
+        String selectedGenre = (String) search_genre.getValue();
+        if (selectedGenre != null && by_genre.isSelected()) {
+            bookApi.addFilter("genre", selectedGenre, 1);
             validInput = true;
-        }else if (!search_genre.getText().isEmpty() && by_date.isIndeterminate()) {
-            bookApi.addFilter("genre", search_genre.getText(),2);
+            onlyIndeterminate=false;
+        } else if (selectedGenre != null && by_genre.isIndeterminate()) {
+            bookApi.addFilter("genre", selectedGenre, 2);
             validInput = true;
         }
 
@@ -488,18 +514,24 @@ public class ClientInfoController{
         book_results_container.setVisible(true);
         List<Book> results = bookApi.searchBooksByMap();
         if (!results.isEmpty()) {
+
+
             book_search_sum.setText("\n" + bookApi.getMax() + " Résultats de " + bookApi.getIndex() + " à " + (bookApi.getIndex() + results.size() - 1));
             book_search_res.getItems().setAll(results);
             book_search_res.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
 
             book_search_res.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
 
                     Book selectedBook = (Book) book_search_res.getSelectionModel().getSelectedItem();
+
                     setBook(selectedBook);
                     if(user_split_center_form==null && user_search_center_form==null) {
+
                         showBookDetails();
                     }else{
+
                         showLoan();
                     }
 
@@ -566,18 +598,20 @@ public class ClientInfoController{
 
         user_search_center_form.setVisible(false);
 
-        updateCurrentLoan(selected_book_table, book);
+
 
 
         col_sel_loan_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_sel_loan_title.setCellValueFactory(new PropertyValueFactory<>("title"));
         col_sel_loan_author.setCellValueFactory(new PropertyValueFactory<>("author"));
         col_sel_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
+        col_sel_loan_date.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_sel_loan_due.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-        selected_book_table.setPlaceholder(new Label(""));
+        selected_book_table.setPlaceholder(new Label("Ce livre n'est actuellement pas emprunté"));
 
-
+        updateCurrentLoan(selected_book_table, book);
 
 
     }
@@ -587,10 +621,12 @@ public class ClientInfoController{
         col_sel_loan_title.setCellValueFactory(new PropertyValueFactory<>("Title"));
         col_sel_loan_author.setCellValueFactory(new PropertyValueFactory<>("Author"));
         col_sel_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
+        col_sel_loan_date.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_sel_loan_due.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
-        selected_book_table.setPlaceholder(new Label("No book currently loaned"));
+        selected_book_table.setPlaceholder(new Label("Aucun livre n'est emprunté"));
 
         list.clear();
         list.addAll(user.getCurrentLoans());
@@ -613,7 +649,7 @@ public class ClientInfoController{
 
 
         }else {
-            book_details.setText("No book currently loaned to return");
+            book_details.setText("Aucun livre n'est emprunté");
             return_loan_btn.setVisible(false);
         }
     }
@@ -673,6 +709,7 @@ public class ClientInfoController{
 
     public void updateCurrentLoan(TableView table, Book book){
         table.getItems().clear();
+
         ObservableList<Loan> currentLoans = FXCollections.observableArrayList();
         currentLoans.addAll(book.getCurrentLoans());
         if (!currentLoans.isEmpty()) {
@@ -692,7 +729,7 @@ public class ClientInfoController{
                     if (!user.isEligibleToLoan()) {
                         loan_btn.setVisible(false);
                         loan_error.setVisible(true);
-                        loan_error.setText("User not eligible");
+                        loan_error.setText("Utilisateur non éligible");
                     } else {
                         loan_btn.setVisible(true);
                         loan_error.setVisible(false);
@@ -716,6 +753,7 @@ public class ClientInfoController{
             if (user.isEligibleToLoan()) {
                 set_time_loan.setVisible(true);
                 ok_btn.setOnAction(ActionEvent -> {
+
                     int loanTime = Integer.parseInt(loan_time.getText());
                     Loan loan = new Loan(book, user, loanTime);
                     if (loanDAO.create(loan)) {
@@ -733,7 +771,7 @@ public class ClientInfoController{
             }else{
                 loan_btn.setVisible(false);
                 loan_error.setVisible(true);
-                loan_error.setText("User not eligible");
+                loan_error.setText("Utilisateur non éligible");
             }
 
 
@@ -770,10 +808,12 @@ public class ClientInfoController{
         col_sel_loan_author.setCellValueFactory(new PropertyValueFactory<>("author"));
         col_sel_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         col_sel_loan_due.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-        col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-        selected_book_table.setPlaceholder(new Label("Ce livre n'est pas emprunté"));
 
-        loan_error.setText("Veuillez identifier un user pour emprunter ce livre");
+        col_sel_loan_date.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
+        col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+        selected_book_table.setPlaceholder(new Label("Ce livre n'est actuellement pas emprunté"));
+
+        loan_error.setText("Veuillez identifier un utilisateur pour emprunter ce livre");
         loan_btn.setStyle("-fx-opacity:60%; -fx-cursor:pointer;");
         updateCurrentLoan(selected_book_table, book);
 
@@ -865,54 +905,6 @@ public class ClientInfoController{
 
             }
         });
-
-
-
-
-
-
-        /*
-        boolean validInput = false;
-
-        if (edit_firstName.isSelected() && !set_firstName.getText().isEmpty()){
-            user.setFirstName(set_firstName.getText());
-            validInput = true;
-        }else if(edit_firstName.isSelected()){
-            user.getFirstName();
-            validInput = true;        }
-        if (edit_lastName.isSelected() && !set_lastName.getText().isEmpty()){
-            user.setLastName(set_lastName.getText());
-            validInput = true;
-        }else if(edit_lastName.isSelected()){
-            user.getLastName();
-            validInput = true;
-        }
-        if (edit_email.isSelected() && !set_email.getText().isEmpty()){
-            user.setLastName(set_email.getText());
-            validInput = true;
-        }else if(edit_email.isSelected()){
-            user.getEmail();
-            validInput=true;
-        }
-        if (!validInput){
-            update_btn.setOnAction(e -> {
-                MainMenuController.showAlert("Admin Message","Pas de modification", Alert.AlertType.INFORMATION);
-
-            });
-        }else{
-            update_btn.setOnAction(e ->{
-                boolean success = userDAO.update(user);
-
-                if (success) {
-                    MainMenuController.showAlert("Admin message", "User edited successfully.", Alert.AlertType.INFORMATION);
-                    set_edit_user.setVisible(false);
-                    userId.setText(setUser_details(user));
-                } else {
-                    MainMenuController.showAlert("Admin message", "Failed to edit user.", Alert.AlertType.INFORMATION);
-                };
-            });
-
-        }*/
     }
 
     public void setCancel_update_btn(ActionEvent event){

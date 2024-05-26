@@ -79,12 +79,12 @@
                                                    </font>
                                                 </CheckBox>
                                                 <CheckBox fx:id="by_genre" alignment="CENTER" allowIndeterminate="true" layoutX="10.0" layoutY="31.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="400.0" text="    Genre">
-                                                   <graphic>
-                                                      <TextField fx:id="search_genre" prefWidth="250.0" />
-                                                   </graphic>
                                                    <font>
                                                       <Font name="Verdana" size="15.0" />
                                                    </font>
+                                                   <graphic>
+                                                      <ChoiceBox fx:id="search_genre" prefHeight="31.0" prefWidth="251.0" />
+                                                   </graphic>
                                                 </CheckBox>
                                                 <CheckBox fx:id="by_date" alignment="CENTER" allowIndeterminate="true" layoutX="10.0" layoutY="31.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="400.0" text="      Date">
                                                    <graphic>
@@ -168,7 +168,7 @@
                                           <TableColumn fx:id="col_sel_loan_title" prefWidth="75.0" text="Titre" />
                                           <TableColumn fx:id="col_sel_loan_author" prefWidth="75.0" text="Auteur" />
                                           <TableColumn fx:id="col_sel_book_date" prefWidth="75.0" text="DatePubli" />
-                                          <TableColumn fx:id="col_sel_book_genre" prefWidth="75.0" text="Genre" />
+                                          <TableColumn fx:id="col_sel_loan_genre" prefWidth="75.0" text="Genre" />
                                           <TableColumn fx:id="col_sel_loan_due" prefWidth="75.0" text="DueDate" />
                                           <TableColumn fx:id="col_sel_loan_return" prefWidth="75.0" text="ReturnDate" />
                                           <TableColumn fx:id="col_sel_loan_status" prefWidth="75.0" text="Status" />

@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.cyu.cybooks.view.LoansInfoController">
    <children>
-      <BorderPane fx:id="content" layoutX="373.0" layoutY="185.0" prefHeight="600.0" prefWidth="986.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="373.0" layoutY="185.0" prefHeight="600.0" prefWidth="986.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <AnchorPane prefHeight="60.0" prefWidth="986.0" styleClass="top-form-bar" stylesheets="@LibraryAppDesign.css" BorderPane.alignment="CENTER">
                <children>
@@ -63,7 +63,7 @@
                               </AnchorPane>
                               <AnchorPane layoutY="78.0" prefHeight="462.0" prefWidth="759.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="78.0">
                                  <children>
-                                    <AnchorPane fx:id="content" layoutX="18.0" layoutY="-1.0" prefHeight="448.0" prefWidth="937.0" styleClass="user_info" stylesheets="@LibraryAppDesign.css">
+                                    <AnchorPane layoutX="18.0" layoutY="-1.0" prefHeight="448.0" prefWidth="937.0" styleClass="user_info" stylesheets="@LibraryAppDesign.css">
                                        <children>
                                           <TableView fx:id="loan_table" layoutX="24.0" layoutY="16.0" prefHeight="378.0" prefWidth="675.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="15.0">
                                             <columns>
@@ -71,7 +71,7 @@
                                               <TableColumn fx:id="col_loan_userId" prefWidth="52.0" text="UserId" />
                                               <TableColumn fx:id="col_loan_title" prefWidth="294.0" text="Titre" />
                                                 <TableColumn fx:id="col_loan_author" minWidth="2.0" prefWidth="168.0" text="Auteur" />
-                                                <TableColumn fx:id="col_loan_date" minWidth="0.0" prefWidth="96.0" text="Date" />
+                                                <TableColumn fx:id="col_loan_loanDate" minWidth="0.0" prefWidth="96.0" text="LoanDate" />
                                                 <TableColumn fx:id="col_loan_dueDate" prefWidth="116.0" text="DueDate" />
                                                 <TableColumn fx:id="col_loan_returnDate" prefWidth="108.0" text="ReturnDate" />
                                             </columns>
@@ -126,14 +126,12 @@
                                         <TableColumn fx:id="col_sel_loan_userId" prefWidth="75.0" text="UserId" />
                                           <TableColumn fx:id="col_sel_loan_title" prefWidth="75.0" text="Titre" />
                                           <TableColumn fx:id="col_sel_loan_author" prefWidth="75.0" text="Auteur" />
-                                          <TableColumn fx:id="col_sel_book_date" prefWidth="75.0" text="DatePubli" />
-                                          <TableColumn fx:id="col_sel_book_genre" prefWidth="75.0" text="Genre" />
+                                          <TableColumn fx:id="col_sel_loan_date" prefWidth="75.0" text="DatePubli" />
                                           <TableColumn fx:id="col_sel_loan_due" prefWidth="75.0" text="DueDate" />
                                           <TableColumn fx:id="col_sel_loan_return" prefWidth="75.0" text="ReturnDate" />
-                                          <TableColumn fx:id="col_sel_loan_status" prefWidth="75.0" text="Status" />
                                       </columns>
                                     </TableView>
-                                    <Button fx:id="return_to_res" layoutX="550.0" layoutY="453.0" mnemonicParsing="false" text="Return to search" />
+                                    <Button fx:id="return_to_res" layoutX="477.0" layoutY="461.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="186.0" styleClass="btn" stylesheets="@LibraryAppDesign.css" text="Retour" />
                                  </children>
                               </AnchorPane>
                            </children>

@@ -74,7 +74,7 @@ public class LoansInfoController {
     private TableColumn<?, ?> col_loan_author;
 
     @FXML
-    private TableColumn<?, ?> col_loan_date;
+    private TableColumn<?, ?> col_loan_loanDate;
 
 
     @FXML
@@ -98,7 +98,6 @@ public class LoansInfoController {
 
     @FXML
     private TableColumn<?, ?> col_book_author;
-
     @FXML
     private TableColumn<?, ?> col_book_date;
 
@@ -122,7 +121,6 @@ public class LoansInfoController {
 
     @FXML
     private TableColumn<?, ?> col_sel_loan_userId;
-
     @FXML
     private TableColumn<?, ?> col_sel_loan_title;
 
@@ -130,10 +128,7 @@ public class LoansInfoController {
     private TableColumn<?, ?> col_sel_loan_author;
 
     @FXML
-    private TableColumn<?, ?> col_sel_book_date;
-
-    @FXML
-    private TableColumn<?, ?> col_sel_book_genre;
+    private TableColumn<?, ?> col_sel_loan_date;
 
     @FXML
     private TableColumn<?, ?> col_sel_loan_due;
@@ -141,8 +136,6 @@ public class LoansInfoController {
     @FXML
     private TableColumn<?, ?> col_sel_loan_return;
 
-    @FXML
-    private TableColumn<?, ?> col_sel_loan_status;
 
     @FXML
     private Button return_to_res;
@@ -220,6 +213,7 @@ public class LoansInfoController {
         col_loan_title.setCellValueFactory(new PropertyValueFactory<>("Title"));
         col_loan_author.setCellValueFactory(new PropertyValueFactory<>("Author"));
         col_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        col_loan_loanDate.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_loan_dueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_loan_returnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
@@ -279,6 +273,7 @@ public class LoansInfoController {
         col_loan_title.setCellValueFactory(new PropertyValueFactory<>("Title"));
         col_loan_author.setCellValueFactory(new PropertyValueFactory<>("Author"));
         col_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        col_loan_loanDate.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_loan_dueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_loan_returnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
@@ -355,9 +350,10 @@ public class LoansInfoController {
         col_sel_loan_title.setCellValueFactory(new PropertyValueFactory<>("title"));
         col_sel_loan_author.setCellValueFactory(new PropertyValueFactory<>("author"));
         col_sel_loan_userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        col_sel_loan_date.setCellValueFactory(new PropertyValueFactory<>("loanDate"));
         col_sel_loan_due.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         col_sel_loan_return.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-        selected_book_table.setPlaceholder(new Label("Ce livre n'est pas emprunté"));
+        selected_book_table.setPlaceholder(new Label("Ce livre n'est actuellement pas emprunté"));
 
         loan_error.setText("Veuillez identifier un user pour emprunter ce livre");
         loan_btn.setStyle("-fx-opacity:60%; -fx-cursor:pointer;");
