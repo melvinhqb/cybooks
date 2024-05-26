@@ -478,7 +478,7 @@ public class ClientInfoController{
             validInput = true;
             onlyIndeterminate=false;
         }else if (!search_author.getText().isEmpty() && by_author.isIndeterminate()) {
-            bookApi.addFilter("date", search_author.getText(),2);
+            bookApi.addFilter("author", search_author.getText(),2);
             validInput = true;
         }
         if (!search_date.getText().isEmpty() && by_date.isSelected()) {
