@@ -160,7 +160,7 @@ public class BookAPI {
             } else if (Objects.equals(condition, "date")) {
                 this.map.put("bib.date all ", "\"" + message + "\" "+finalMethod);
             } else if (Objects.equals(condition, "genre")) {
-                this.map.put("bib.otherid all ", "\"" + message + "\" "+finalMethod);
+                this.map.put("bib.subject all ", "\"" + message + "\" "+finalMethod);
             }
         }else{
             if (Objects.equals(condition, "author")) {
@@ -170,7 +170,7 @@ public class BookAPI {
             } else if (Objects.equals(condition, "date")) {
                 this.map.remove("bib.date all ");
             } else if (Objects.equals(condition, "genre")) {
-                this.map.remove("bib.otherid all ");
+                this.map.remove("bib.subject all ");
             }
         }
         index = 1;
