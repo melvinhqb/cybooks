@@ -61,3 +61,7 @@ Fichier -> Paramètres
         ->Mettez le path to SceneBuilder.exe
 
 pom.xml -> Vérifiez que toutes les dépendances sont bien configurées avec la bonne version (>8)
+
+## Documentation
+
+La documentation JavaDoc pour ce projet est disponible [ici](https://melvinhqb.github.io/cybooks/).
