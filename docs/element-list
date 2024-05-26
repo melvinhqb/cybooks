@@ -1,0 +1,7 @@
+fr.cyu.cybooks
+fr.cyu.cybooks.connection
+fr.cyu.cybooks.dao
+fr.cyu.cybooks.dao.api
+fr.cyu.cybooks.dao.implement
+fr.cyu.cybooks.models
+fr.cyu.cybooks.view

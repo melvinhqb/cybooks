@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="3" />
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+    <option name="SCOPE_TYPE" value="8" />
     <option name="CUSTOM_SCOPE_NAME" value="Module 'cybooks'" />
   </component>
   <component name="AutoImportSettings">
@@ -9,23 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b2dee85-6ea2-46f1-ace2-5b8b583b016c" name="Changes" comment="add comments for DatabaseConnection.java&#10;display error message when error connection">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/ClientInfoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/CyBooksApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/LoansInfoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/view/MainMenuController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/ClientInfo.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/LibraryAppDesign.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/LoansInfo.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/MainMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/SearchBook.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/UserLogin.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/UserSearch.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr/cyu/cybooks/view/UserSignin.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/cyu/cybooks/models/Loan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,17 +46,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "C:/Users/CYTech Student/javafx-sdk-22.0.1/lib",
+    "last_opened_file_path": "H:/Downloads/mysql-connector-java-8.0.25.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.JavaFX",
@@ -143,6 +135,7 @@
       <workItem from="1716558002769" duration="5373000" />
       <workItem from="1716620399303" duration="6828000" />
       <workItem from="1716668807288" duration="2000000" />
+      <workItem from="1716720281375" duration="366000" />
     </task>
     <task id="LOCAL-00001" summary="create models">
       <created>1715605430771</created>
